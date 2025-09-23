@@ -1,0 +1,28 @@
+/* .tree-container {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.tree {
+  padding: 0;
+}
+
+.tree-node {
+  margin: 4px 0;
+}
+
+.tree-node.expanded > ul {
+  display: block;
+}
+
+.tree-node > ul {
+  display: none;
+}
+
+.tree-node.folder > span {
+  cursor: pointer;
+}
+
+.tree-node.file > span {
+  cursor: default;
+} */

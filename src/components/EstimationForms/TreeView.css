@@ -1,0 +1,86 @@
+.tree-container {
+  padding: 10px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  width: fit-content;
+}
+
+.tree {
+  list-style-type: none;
+  padding-left: 10px;
+}
+
+.tree li {
+  margin: 5px 0;
+  padding-left: 20px;
+  position: relative;
+  cursor: pointer;
+}
+
+.tree li::before {
+  content: "📁"; /* Default folder */
+  position: absolute;
+  left: -20px;
+  font-size: 14px;
+}
+
+.tree li.file::before {
+  content: "📄"; /* File icon */
+}
+
+.tree li.expanded::before {
+  content: "📂"; /* Open folder */
+}
+
+.tree ul {
+  display: none;
+  padding-left: 15px;
+  margin-top: 5px;
+  border-left: 1px solid #ccc;
+}
+
+.tree li.expanded > ul {
+  display: block;
+}
+
+.tree li span {
+  display: inline-block;
+  transition: all 0.3s ease;
+}
+
+.tree li span:hover {
+  font-weight: bold;
+}
+
+
+/* Dark Mode Styles for TreeView */
+
+.dark-mode .tree-container {
+  background-color: #2d3748; /* Darker background */
+  color: #e2e8f0; /* Light text */
+  border: 1px solid #4a5568; /* Darker border */
+}
+
+dark-mode .tree {
+  color: #e2e8f0; /* Light text */
+}
+
+dark-mode .tree li {
+  color: #e2e8f0; /* Light text */
+}
+
+dark-mode .tree li::before {
+  color: #cbd5e0; /* Slightly darker icon */
+}
+
+dark-mode .tree ul {
+  border-left: 1px solid #6b7280; /* Darker border line */
+}
+
+dark-mode .tree li span {
+  color: #e2e8f0; /* Light text */
+}
+
+dark-mode .tree li span:hover {
+  color: #a0aec0; /* Lighter hover color */
+}
