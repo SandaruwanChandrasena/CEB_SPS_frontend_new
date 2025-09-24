@@ -40,8 +40,11 @@ export default function JobTypeSet() {
   return (
     <>
       <main>
+
+        <div>
+
         <section
-          className="relative w-full h-full min-h-screen py-4"
+          className="relative w-full h-full min-h-screen py-4 flex items-center justify-center"
           style={{ height: "100vh" }}
         >
           <div
@@ -101,6 +104,7 @@ export default function JobTypeSet() {
             </div>
           </div>
         </section>
+        </div>
       </main>
     </>
   );
