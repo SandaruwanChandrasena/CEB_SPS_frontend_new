@@ -28,7 +28,7 @@ export default function JobTypeSet() {
       .catch((err) => {
         console.error("Error fetching job types:", err);
       });
-  }, [baseUrl]); 
+  }, [baseUrl]);
 
   const handleNext = () => {
     if (selectedJobType) {
@@ -38,74 +38,70 @@ export default function JobTypeSet() {
   };
 
   return (
-    <>
-      <main>
-
-        <div>
-
-        <section
-          className="relative w-full h-full min-h-screen py-4 flex items-center justify-center"
-          style={{ height: "100vh" }}
+    <main>
+      <section className="relative w-full h-full min-h-screen py-4 flex items-center justify-center bg-white">
+        <div
+          className="w-full px-4 lg:w-4/12 border rounded-lg shadow-lg m-4 lg:m-24"
+          style={{
+            height: "200px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
         >
-          <div
-            className="absolute top-0 w-full h-full bg-white bg-no-repeat bg-full"
-            // style={{
-            //   backgroundImage:
-            //     "linear-gradient(to bottom, #fcf577, #f3ce56, #e7a73c, #d8802a, #ba3e30, #a8253c, #901145, #2f2d4e, #1e293b, #1e293b, #1e293b, #1e293b)",
-            // }}
-          ></div>
-          <div className="w-full px-4 lg:w-4/12">
-            <div className="relative w-full mb-3">
-              <div className="flex">
-                <label
-                  className="block mb-2 text-sm font-bold text-blueGray-800"
-                  htmlFor="grid-password"
+          <div className="relative w-full mb-3 ">
+            <div className="flex items-center">
+              <label
+                className="block mb-2 text-xl font-bold text-gray-800"
+                htmlFor="jobtype"
+                style={{ paddingBottom: "20px" }}
+              >
+                Select Job Type
+              </label>
+              {!selectedJobType && (
+                <p
+                  className="ml-2 text-xs text-red-500"
+                  style={{ paddingBottom: "20px", fontSize: "12px" }}
                 >
-                  Select Job Type
-                </label>
-                {!selectedJobType && (
-                  <p className="ml-2 text-xs text-red-500">
-                    * Job type is required
-                  </p>
-                )}
-              </div>
-              <div className="relative flex w-full mb-3">
-                <select
-                  name="jobtype"
-                  id="jobtype"
-                  value={selectedJobType}
-                  onChange={(e) => setSelectedJobType(e.target.value)}
-                  className="w-full px-3 py-2 text-sm transition-all duration-150 ease-linear bg-white border-0 rounded shadow placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring"
-                  defaultValue=""
-                >
-                  <option value="" disabled>
-                    --Please Select--
-                  </option>
+                  * Job type is required
+                </p>
+              )}
+            </div>
 
-                  {jobTypes.map((type) => (
-                    <option key={type.apptype} value={type.apptype}>
-                      {type.description}
-                    </option>
-                  ))}
-                </select>
-                <button
-                  onClick={handleNext}
-                  disabled={!selectedJobType}
-                  style={{backgroundColor:`${
-                    selectedJobType
-                      ? "#7c0000"	
-                      : "#b23200"
-                  }`}}
-                  className={"ml-2 text-white active:bg-blueGray-600 font-bold text-sm px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"}
-                >
-                  Next
-                </button>
-              </div>
+            <div className="relative flex w-full mb-3 items-center">
+              <select
+                name="jobtype"
+                id="jobtype"
+                value={selectedJobType}
+                onChange={(e) => setSelectedJobType(e.target.value)}
+                className="w-full px-3 py-3 text-sm transition-all duration-150 ease-linear bg-white border border-gray-300 rounded shadow-md placeholder-gray-400 text-gray-700 focus:outline-none focus:ring-2 focus:ring-red-600"
+              >
+                <option value="" disabled>
+                  --Please Select--
+                </option>
+                {jobTypes.map((type) => (
+                  <option key={type.apptype} value={type.apptype}>
+                    {type.description}
+                  </option>
+                ))}
+              </select>
+
+              <button
+                onClick={handleNext}
+                disabled={!selectedJobType}
+                style={{
+                  backgroundColor: selectedJobType ? "#991b1b" : "#991b1b", // red-800 hex
+                  cursor: selectedJobType ? "pointer" : "not-allowed",
+                  opacity: 1,
+                }}
+                className="ml-2 text-white font-bold text-sm px-4 py-3 rounded shadow-md hover:shadow-lg focus:outline-none transition-all duration-150"
+              >
+                Next
+              </button>
             </div>
           </div>
-        </section>
         </div>
-      </main>
-    </>
+      </section>
+    </main>
   );
 }
