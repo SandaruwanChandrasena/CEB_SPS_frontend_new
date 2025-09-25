@@ -26,7 +26,7 @@ const TechDetails = () => {
           <div className="w-full px-4 lg:w-3/12">
             <div className="relative w-full mb-2">
               <label
-                className="block mb-1 text-sm text-blueGray-600"
+                className="block mb-1 text-md text-blueGray-600"
                 htmlFor="grid-password"
               >
                 HT/LT Metering
@@ -50,7 +50,7 @@ const TechDetails = () => {
           <div className="w-full px-4 lg:w-6/12">
             <div className="relative w-full mb-2">
               <label
-                className="block mb-2 text-sm text-blueGray-600"
+                className="block mb-2 text-md text-blueGray-600"
                 htmlFor="grid-password"
               >
                 Does Premises already have electricity supply
@@ -74,56 +74,56 @@ const TechDetails = () => {
           <div className="w-full px-4 lg:w-3/12">
             <div className="relative w-full mb-3">
               <label
-                className="block mb-2 text-sm text-blueGray-600"
+                className="block mb-2 text-md text-blueGray-600"
                 htmlFor="grid-password"
               >
                 Capacity of Service
               </label>
               <input
                 type="text"
-                className="border-0 px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                className="border-1 px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
               />
             </div>
           </div>
           <div className="w-full px-4 lg:w-4/12">
             <div className="relative w-full mb-3">
               <label
-                className="block mb-2 text-sm text-blueGray-600"
+                className="block mb-2 text-md text-blueGray-600"
                 htmlFor="grid-password"
               >
                 No of metering points
               </label>
               <input
                 type="text"
-                className="border-0 px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                className="border-1 px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
               />
             </div>
           </div>
           <div className="w-full px-4 lg:w-4/12">
             <div className="relative w-full mb-3">
               <label
-                className="block mb-2 text-sm text-blueGray-600"
+                className="block mb-2 text-md text-blueGray-600"
                 htmlFor="grid-password"
               >
                 Account Numbers
               </label>
               <input
                 type="text"
-                className="border-0 px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                className="border-1 px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
               />
             </div>
           </div>
           <div className="w-full px-4 lg:w-4/12">
             <div className="relative w-full mb-3">
               <label
-                className="block mb-2 text-sm text-blueGray-600"
+                className="block mb-2 text-md text-blueGray-600"
                 htmlFor="grid-password"
               >
                 Type of Supply
               </label>
               <select
                 name="supplytype"
-                className="border-0 px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                className="border-1 px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
               >
                 <option value="Industry">Industry</option>
                 <option value="AREA - OTHER">OTHER</option>
@@ -131,11 +131,11 @@ const TechDetails = () => {
             </div>
           </div>
           <div className="w-full px-4 lg:w-6/12">
-            <label className="block mb-2 text-sm text-blueGray-600">
+            <label className="block mb-2 text-md text-blueGray-600">
               Document to Be Submitted
             </label>
             <select
-              className="border-0 px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+              className="border-1 px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
               onChange={(e) => setSelectedDoc(e.target.value)}
             >
               <option value="">Select Document</option>
@@ -149,7 +149,7 @@ const TechDetails = () => {
             >
               <input {...getInputProps()} />
               <FaCloudUploadAlt size={35} className="mx-auto text-gray-500" />
-              <p className="block mb-2 text-sm text-blueGray-600">
+              <p className="block mb-2 text-md text-blueGray-600">
                 Drag & Drop files here or click to upload
               </p>
             </div>
@@ -172,11 +172,11 @@ const TechDetails = () => {
 
           {/*  */}
           <div className="w-full px-4 lg:w-6/12">
-            <label className="block mb-2 text-sm text-blueGray-600">
+            <label className="block mb-2 text-md text-blueGray-600">
               Document to Be Submitted
             </label>
             <select
-              className="border-0 px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+              className="border-1 px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
               onChange={(e) => setSelectedDoc(e.target.value)}
             >
               <option value="">Select Document</option>
@@ -190,7 +190,7 @@ const TechDetails = () => {
             >
               <input {...getInputProps()} />
               <FaCloudUploadAlt size={35} className="mx-auto text-gray-500" />
-              <p className="block mb-2 text-sm text-blueGray-600">
+              <p className="block mb-2 text-md text-blueGray-600">
                 Drag & Drop files here or click to upload
               </p>
             </div>
