@@ -16,7 +16,7 @@ const ApplicantInfo = ({
   //const [appData, setAppData] = useState({});
   const [nicError, setNicError] = useState(""); // State to handle error messages
   // const [loading, setLoading] = useState(false);
-   const [loading] = useState(false); // To show loading state during API call
+  const [loading] = useState(false); // To show loading state during API call
 
   // Now safely access applicant.idNo with a fallback
   // const idNo = applicant?.idNo || "";
@@ -55,16 +55,14 @@ const ApplicantInfo = ({
   return (
     <div className="flex-auto px-4 py-10 pt-2 lg:px-10">
       <form>
-        {/* <div className="block mb-3 ml-3 font-bold text-blueGray-600 text-m">Applicant Information</div> */}
+        {/* <div className="block mb-3 ml-3 font-bold text-black text-m">Applicant Information</div> */}
 
         {/* //new */}
         <div className="flex flex-wrap ">
           <div className="flex"></div>
           <div className="w-full px-4 lg:w-6/12">
             <div className="relative w-full mb-3">
-              <label className="block mb-2 text-sm text-blueGray-600">
-                ID Type
-              </label>
+              <label className="block mb-2 text-md text-black">ID Type</label>
               <div className="flex gap-4 mt-2">
                 <label className="mr-4 text-sm">
                   <input
@@ -103,7 +101,7 @@ const ApplicantInfo = ({
           <div className="w-full px-4 lg:w-6/12">
             <div className="relative w-full mb-3">
               <label
-                className="block mb-2 text-sm text-blueGray-600"
+                className="block mb-2 text-md text-black"
                 htmlFor="grid-password"
               >
                 ID Number
@@ -115,7 +113,7 @@ const ApplicantInfo = ({
                   name="idNo"
                   value={appData && appData.idNo}
                   onChange={handleChange}
-                  className={`border-0 px-3 h-0.5  placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150 ${
+                  className={`border-1 px-3 h-0.5  placeholder-blueGray-300 text-black bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150 ${
                     nicError ? "border-red-500" : ""
                   }`}
                   placeholder="NIC No"
@@ -146,7 +144,7 @@ const ApplicantInfo = ({
           {/* <div className="w-full px-4 lg:w-6/12">
             <div className="relative w-full mb-3">
               <label
-                className="block mb-2 text-xs font-bold uppercase text-blueGray-600"
+                className="block mb-2 text-xs font-bold uppercase text-black"
                 htmlFor="grid-password"
               >
                 ID NO
@@ -156,7 +154,7 @@ const ApplicantInfo = ({
                 name="idNo"
                 value={appData.idNo}
                 onChange={handleChange}
-                className="w-full px-3 py-3 text-sm transition-all duration-150 ease-linear bg-white border-0 rounded shadow placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring"
+                className="w-full px-3 py-3 text-sm transition-all duration-150 ease-linear bg-white border-0 rounded shadow placeholder-blueGray-300 text-black focus:outline-none focus:ring"
                 defaultValue="ID Nomber"
               />
             </div>
@@ -176,7 +174,7 @@ const ApplicantInfo = ({
           <div className="w-full px-4 lg:w-6/12">
             <div className="relative w-full mb-3">
               <label
-                className="block mb-2 text-sm text-blueGray-600"
+                className="block mb-2 text-md text-black"
                 htmlFor="grid-password"
               >
                 First Name (Initials)/Company Name/Requested By
@@ -186,7 +184,7 @@ const ApplicantInfo = ({
                 name="firstName"
                 value={appData?.firstName || ""}
                 onChange={handleChange}
-                className="border-0 px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                className="border-1 px-3 h-0.5 placeholder-blueGray-300 text-black bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                 placeholder="Enter First Name"
               />
             </div>
@@ -194,7 +192,7 @@ const ApplicantInfo = ({
           <div className="w-full px-4 lg:w-6/12">
             <div className="relative w-full mb-3">
               <label
-                className="block mb-2 text-sm text-blueGray-600"
+                className="block mb-2 text-md text-black"
                 htmlFor="grid-password"
               >
                 Last Name/Company Type
@@ -204,7 +202,7 @@ const ApplicantInfo = ({
                 name="lastName"
                 value={appData.lastName}
                 onChange={handleChange}
-                className="border-0 px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                className="border-1 px-3 h-0.5 placeholder-blueGray-300 text-black bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                 placeholder="Enter Last Name"
               />
             </div>
@@ -213,7 +211,7 @@ const ApplicantInfo = ({
           <div className="w-full px-4 lg:w-12/12">
             <div className="relative w-full mb-3">
               <label
-                className="block mb-2 text-sm text-blueGray-600"
+                className="block mb-2 text-md text-black"
                 htmlFor="grid-password"
               >
                 Full Name/Requested By/Cost Center
@@ -223,7 +221,7 @@ const ApplicantInfo = ({
                 name="fullName"
                 value={appData.fullName}
                 onChange={handleChange}
-                className="border-0 px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                className="border-1 px-3 h-0.5 placeholder-blueGray-300 text-black bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                 placeholder="Enter Full Name"
               />
             </div>
@@ -232,7 +230,7 @@ const ApplicantInfo = ({
           {/* personal/corporate */}
           <div className="w-full px-4 lg:w-12/12">
             <div className="relative w-full mb-3">
-              <label className="block mb-2 text-sm text-blueGray-600">
+              <label className="block mb-2 text-md text-black">
                 Personal/Corporate
               </label>
               <select
@@ -240,7 +238,7 @@ const ApplicantInfo = ({
                 // value={appData.personalCorporate}
                 //value={appData.personalCorporate || ""}
                 onChange={handleChange}
-                className="border-0 px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                className="border-1 px-3 h-0.5 placeholder-blueGray-300 text-black bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
               >
                 <option value="Per">Personal</option>
                 <option value="Cop">Corporate</option>
@@ -253,7 +251,7 @@ const ApplicantInfo = ({
 
           <div className="w-full px-4 lg:w-6/12">
             <div className="relative w-full mb-3">
-              <label className="block mb-2 text-sm text-blueGray-600">
+              <label className="block mb-2 text-md text-black">
                 CEB Employee
               </label>
               <div className="flex space-x-4 ">
@@ -285,7 +283,7 @@ const ApplicantInfo = ({
           </div>
           <div className="w-full px-4 lg:w-6/12">
             <div className="relative w-full mb-3">
-              <label className="block mb-2 text-sm text-blueGray-600">
+              <label className="block mb-2 text-md text-black">
                 Preferred Language
               </label>
               <div className="flex space-x-4">

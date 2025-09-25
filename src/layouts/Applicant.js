@@ -15,7 +15,7 @@ export default function Applicant() {
     return (
         <>
           <Sidebar />
-          <div className="relative flex flex-col min-h-screen md:ml-64 bg-blueGray-100">
+          <div className="relative flex flex-col min-h-screen md:ml-64 bg-white">
             {/* Content Wrapper */}
             <HeaderStatsWithoutCards />
             <div className="flex-grow">

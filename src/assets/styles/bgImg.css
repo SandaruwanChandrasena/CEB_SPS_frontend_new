@@ -2,13 +2,12 @@
   position: relative;
   min-height: 100vh;
   width: 100%;
-  background-size: cover;       /* image fills page */
-  background-position: center;  /* keeps centered */
+  background-position: center; /* keeps centered */
   background-repeat: no-repeat;
   display: flex;
   align-items: center;
   justify-content: center;
-    overflow: hidden;
+  overflow: hidden;
 }
 
 /* Overlay effect */

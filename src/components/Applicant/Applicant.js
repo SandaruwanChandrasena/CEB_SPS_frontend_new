@@ -223,12 +223,12 @@ const Applicant = ({
 
       <div className="flex justify-center mt-2 mb-2 text-center">
         {currentIndex === 0 && (
-          <span className="ml-2 text-sm font-bold text-gray-700">
+          <span className="ml-2 text-xl font-bold text-gray-700">
             Applicant Information
           </span>
         )}
         {currentIndex === 1 && (
-          <span className="ml-2 text-sm font-bold text-gray-700">
+          <span className="ml-2 text-xl font-bold text-gray-700">
             Applicant Contact Details
           </span>
         )}
@@ -236,7 +236,7 @@ const Applicant = ({
 
       {/* Tab Content */}
       <div className="p-6">
-        <div className="relative flex flex-col w-full min-w-0 break-words border-0 rounded-b-lg shadow-lg bg-blueGray-100">
+        <div className="relative flex flex-col w-full min-w-0 break-words border-1 border-gray-200 rounded-b-lg shadow-lg bg-blueGray-50">
           {/* now edited */}
 
           {/* now edited end */}
