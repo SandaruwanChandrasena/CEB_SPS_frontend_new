@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
-import ceb from "../../assets/img/ceb.png"
-import ceb from "assets/img/ceb.png";
+import ceb from "../../img/ceb.png"
 import { toast } from "react-toastify";
 
 export default function Login() {
