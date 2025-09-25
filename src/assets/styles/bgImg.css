@@ -1,0 +1,32 @@
+.bg-container {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  background-size: cover;       /* image fills page */
+  background-position: center;  /* keeps centered */
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Overlay effect */
+.bg-container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5); /* dark overlay */
+  z-index: 1;
+}
+
+/* Keep content above overlay */
+.bg-content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}

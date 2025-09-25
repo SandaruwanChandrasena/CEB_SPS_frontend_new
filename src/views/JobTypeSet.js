@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import { useEffect, useState } from "react";
+import bhImg from "../assets/img/ceb-logo-and-wave.png"; // ✅ keep in src/assets
+import "../../src/assets/styles/bgImg.css";
 
 export default function JobTypeSet() {
   const history = useHistory();
@@ -39,67 +40,70 @@ export default function JobTypeSet() {
 
   return (
     <main>
-      <section className="relative w-full h-full min-h-screen py-4 flex justify-center bg-white"
-      style={{marginBottom: "100px", marginTop: "120px"}}
+      <section
+        className="bg-container"
+        style={{ backgroundImage: `url(${bhImg})` }}
       >
-        <div
-          className="w-full px-4 lg:w-4/12 border rounded-lg shadow-lg m-4 lg:m-24"
-          style={{
-            height: "200px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <div className="relative w-full mb-3 ">
-            <div className="flex items-center">
-              <label
-                className="block mb-2 text-xl font-bold text-gray-800"
-                htmlFor="jobtype"
-                style={{ paddingBottom: "20px" }}
-              >
-                Select Job Type
-              </label>
-              {!selectedJobType && (
-                <p
-                  className="ml-2 text-xs text-red-500"
-                  style={{ paddingBottom: "20px", fontSize: "12px" }}
+        <div className="bg-content">
+          <div
+            className="w-full px-4 lg:w-4/12 border rounded-lg shadow-lg m-4 lg:m-24 bg-white"
+            style={{
+              height: "200px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <div className="relative w-full mb-3 ">
+              <div className="flex items-center">
+                <label
+                  className="block mb-2 text-xl font-bold text-gray-800"
+                  htmlFor="jobtype"
+                  style={{ paddingBottom: "20px" }}
                 >
-                  * Job type is required
-                </p>
-              )}
-            </div>
+                  Select Job Type
+                </label>
+                {!selectedJobType && (
+                  <p
+                    className="ml-2 text-xs text-red-500"
+                    style={{ paddingBottom: "20px", fontSize: "12px" }}
+                  >
+                    * Job type is required
+                  </p>
+                )}
+              </div>
 
-            <div className="relative flex w-full mb-3 items-center">
-              <select
-                name="jobtype"
-                id="jobtype"
-                value={selectedJobType}
-                onChange={(e) => setSelectedJobType(e.target.value)}
-                className="w-full px-3 py-3 text-sm transition-all duration-150 ease-linear bg-white border border-gray-300 rounded shadow-md placeholder-gray-400 text-gray-700 focus:outline-none focus:ring-2 focus:ring-red-600"
-              >
-                <option value="" disabled>
-                  --Please Select--
-                </option>
-                {jobTypes.map((type) => (
-                  <option key={type.apptype} value={type.apptype}>
-                    {type.description}
+              <div className="relative flex w-full mb-3 items-center">
+                <select
+                  name="jobtype"
+                  id="jobtype"
+                  value={selectedJobType}
+                  onChange={(e) => setSelectedJobType(e.target.value)}
+                  className="w-full px-3 py-3 text-sm transition-all duration-150 ease-linear bg-white border border-gray-300 rounded shadow-md placeholder-gray-400 text-gray-700 focus:outline-none focus:ring-2 focus:ring-red-600"
+                >
+                  <option value="" disabled>
+                    --Please Select--
                   </option>
-                ))}
-              </select>
+                  {jobTypes.map((type) => (
+                    <option key={type.apptype} value={type.apptype}>
+                      {type.description}
+                    </option>
+                  ))}
+                </select>
 
-              <button
-                onClick={handleNext}
-                disabled={!selectedJobType}
-                style={{
-                  backgroundColor: selectedJobType ? "#991b1b" : "#991b1b", // red-800 hex
-                  cursor: selectedJobType ? "pointer" : "not-allowed",
-                  opacity: 1,
-                }}
-                className="ml-2 text-white font-bold text-sm px-4 py-3 rounded shadow-md hover:shadow-lg focus:outline-none transition-all duration-150"
-              >
-                Next
-              </button>
+                <button
+                  onClick={handleNext}
+                  disabled={!selectedJobType}
+                  style={{
+                    backgroundColor: "#991b1b", // red-800
+                    cursor: selectedJobType ? "pointer" : "not-allowed",
+                    opacity: 1,
+                  }}
+                  className="ml-2 text-white font-bold text-sm px-4 py-3 rounded shadow-md hover:shadow-lg focus:outline-none transition-all duration-150"
+                >
+                  Next
+                </button>
+              </div>
             </div>
           </div>
         </div>
