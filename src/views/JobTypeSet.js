@@ -39,7 +39,9 @@ export default function JobTypeSet() {
 
   return (
     <main>
-      <section className="relative w-full h-full min-h-screen py-4 flex items-center justify-center bg-white">
+      <section className="relative w-full h-full min-h-screen py-4 flex justify-center bg-white"
+      style={{marginBottom: "100px", marginTop: "120px"}}
+      >
         <div
           className="w-full px-4 lg:w-4/12 border rounded-lg shadow-lg m-4 lg:m-24"
           style={{
