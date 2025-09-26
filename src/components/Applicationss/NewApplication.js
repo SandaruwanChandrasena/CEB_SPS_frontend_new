@@ -81,9 +81,9 @@ const NewApplication = ({
   };
 
   return (
-    <div className="w-full max-w-2xl bg-white shadow-lg rounded-lg p-6">
+    <div className="w-full max-w-2xl p-6 bg-white rounded-lg shadow-lg">
       {/* Stepper */}
-      <div className="flex justify-between items-center mb-2 mt-4 relative">
+      <div className="relative flex items-center justify-between mt-4 mb-2">
         {tabs.map((tab, index) => (
           <div
             key={tab.id}
@@ -99,7 +99,7 @@ const NewApplication = ({
               <div className="absolute left-0 top-1/2 transform -translate-y-1/2 w-full h-0.5 bg-gray-300 z-0"></div>
             )}
             <div
-              className="w-10 h-10 flex items-center justify-center rounded-full border-2 transition-all "
+              className="flex items-center justify-center w-10 h-10 transition-all border-2 rounded-full "
               style={{
                 backgroundColor:
                   index < currentIndex
@@ -132,18 +132,19 @@ const NewApplication = ({
                 }`}
               ></div>
             )}
-            <span className="text-sm mt-2">{tab.label}</span>
+            <span className="mt-2 text-sm">{tab.label}</span>
           </div>
         ))}
       </div>
-      <div className="text-center flex justify-center mb-2">
-          <h6 className="text-blueGray-700 text-sm font-bold">
+       {/* topic title */}
+      <div className="flex justify-center mb-2 text-center">
+          <h6 className="text-xl font-bold text-blueGray-700">
             {tabs[currentIndex].label}
           </h6>
         </div>
+
       {/* Content */}
-      <div className="p-6 bg-blueGray-100 rounded-lg">
-        
+      <div className="p-6 rounded-lg bg-blueGray-50"> 
         {tabs[currentIndex].id === "application" && (
           <AppDetails
             onInputChange={(data) => handleInputChange("appDetails", data)}
@@ -180,7 +181,7 @@ const NewApplication = ({
             <button
               onClick={handleUpdateClick}
               style={{ backgroundColor: "#7c0000" }}
-              className="text-white active:bg-emerald-600 text-sm px-6 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150 mt-2"
+              className="px-6 py-2 mt-2 mr-1 text-sm text-white transition-all duration-150 ease-linear rounded shadow outline-none active:bg-emerald-600 hover:shadow-md focus:outline-none"
             >
               Edit
             </button>
@@ -188,12 +189,12 @@ const NewApplication = ({
         </div>
 
         {/* Navigation Buttons */}
-        <div className="mr-1 flex justify-end items-center mt-2 mb-4">
+        <div className="flex items-center justify-end mt-2 mb-4 mr-1">
           {currentIndex > 0 ? (
             <button
               onClick={handlePrevious}
               style={{ backgroundColor: "#7c0000" }}
-              className="text-white active:bg-lightBlue-600 text-sm px-6 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
+              className="px-6 py-2 mr-1 text-sm text-white transition-all duration-150 ease-linear rounded shadow outline-none active:bg-lightBlue-600 hover:shadow-md focus:outline-none"
             >
               Previous
             </button>
@@ -202,14 +203,14 @@ const NewApplication = ({
             <button
               onClick={handleNext}
               style={{ backgroundColor: "#7c0000" }}
-              className="text-white active:bg-lightBlue-600 text-sm px-6 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
+              className="px-6 py-2 mr-1 text-sm text-white transition-all duration-150 ease-linear rounded shadow outline-none active:bg-lightBlue-600 hover:shadow-md focus:outline-none"
             >
               Next
             </button>
           ) : (
             <button
               onClick={handleSubmit}
-              className="bg-emerald-400 text-white active:bg-emerald-600 text-sm px-6 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
+              className="px-6 py-2 mr-1 text-sm text-white transition-all duration-150 ease-linear rounded shadow outline-none bg-emerald-400 active:bg-emerald-600 hover:shadow-md focus:outline-none"
             >
               {isModify ? "Update" : "Submit"}
             </button>

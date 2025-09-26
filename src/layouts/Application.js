@@ -15,7 +15,7 @@ export default function Application() {
     return (
         <>
           <Sidebar />
-          <div className="relative md:ml-64 bg-blueGray-100">
+          <div className="relative md:ml-64">
             {/* <div className="pt-24 bg-lightBlue-600">
             </div> */}
             <HeaderStatsWithoutCards />

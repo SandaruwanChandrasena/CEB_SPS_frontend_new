@@ -68,13 +68,13 @@ const PersonalDetails = ({ onInputChange, data }) => {
   };
 
   return (
-    <div className="flex-auto px-4 lg:px-10 py-10 pt-2">
+    <div className="flex-auto px-4 py-10 pt-2 lg:px-10">
       <form>
         <div className="flex flex-wrap">
-          <div className="w-full lg:w-6/12 px-4">
+          <div className="w-full px-4 lg:w-6/12">
             <div className="relative w-full mb-3">
               <label
-                className="block text-blueGray-600 text-sm mb-2"
+                className="block mb-2 text-blueGray-600 text-md"
                 htmlFor="grid-password"
               >
                 Id Type
@@ -84,14 +84,14 @@ const PersonalDetails = ({ onInputChange, data }) => {
                 name="idType"
                 value={personalData.idType}
                 onChange={handleChange}
-                className="border-0 px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                className="border-1 px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
               />
             </div>
           </div>
-          <div className="w-full lg:w-6/12 px-4">
+          <div className="w-full px-4 lg:w-6/12">
             <div className="relative w-full mb-3">
               <label
-                className="block text-blueGray-600 text-sm mb-2"
+                className="block mb-2 text-blueGray-600 text-md"
                 htmlFor="grid-password"
               >
                 Id No
@@ -102,22 +102,22 @@ const PersonalDetails = ({ onInputChange, data }) => {
                   name="idNo"
                   value={personalData.idNo}
                   onChange={handleChange}
-                  className="border-0 px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                  className="border-1 px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                 />
                 <button
                   onClick={handleSearch}
                   style={{backgroundColor:"#7c0000"}}
-                  className="ml-2 text-white active:bg-lightBlue-600 text-sm px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
+                  className="px-4 py-2 ml-2 mr-1 text-sm text-white transition-all duration-150 ease-linear rounded shadow outline-none active:bg-lightBlue-600 hover:shadow-md focus:outline-none"
                 >
                   Search
                 </button>
               </div>
             </div>
           </div>
-          <div className="w-full lg:w-6/12 px-4">
+          <div className="w-full px-4 lg:w-6/12">
             <div className="relative w-full mb-3">
               <label
-                className="block text-blueGray-600 text-sm mb-2"
+                className="block mb-2 text-blueGray-600 text-md"
                 htmlFor="grid-password"
               >
                 First Name (Initials)
@@ -127,14 +127,14 @@ const PersonalDetails = ({ onInputChange, data }) => {
                 disabled
                 name="fname"
                 value={personalData.fname}
-                className="border-0 px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                className="border-1 px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
               />
             </div>
           </div>
-          <div className="w-full lg:w-6/12 px-4">
+          <div className="w-full px-4 lg:w-6/12">
             <div className="relative w-full mb-3">
               <label
-                className="block text-blueGray-600 text-sm mb-2"
+                className="block mb-2 text-blueGray-600 text-md"
                 htmlFor="grid-password"
               >
                 Last Name
@@ -144,16 +144,16 @@ const PersonalDetails = ({ onInputChange, data }) => {
                 disabled
                 name="lname"
                 value={personalData.lname}
-                className="border-0 px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                className="border-1 px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
               />
             </div>
           </div>
         </div>
         <div className="flex flex-wrap">
-          <div className="w-full lg:w-3/12 px-4">
+          <div className="w-full px-4 lg:w-3/12">
             <div className="relative w-full mb-3">
               <label
-                className="block text-blueGray-600 text-sm mb-2"
+                className="block mb-2 text-blueGray-600 text-md"
                 htmlFor="grid-password"
               >
                 Street Address
@@ -161,14 +161,14 @@ const PersonalDetails = ({ onInputChange, data }) => {
               <input
                 type="text"
                 disabled
-                className="border-0 px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                className="border-1 px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
               />
             </div>
           </div>
-          <div className="w-full lg:w-3/12 px-4">
+          <div className="w-full px-4 lg:w-3/12">
             <div className="relative w-full mb-3">
               <label
-                className="block text-blueGray-600 text-sm mb-2"
+                className="block mb-2 text-blueGray-600 text-md"
                 htmlFor="grid-password"
               >
                 Suburb
@@ -176,14 +176,14 @@ const PersonalDetails = ({ onInputChange, data }) => {
               <input
                 type="text"
                 disabled
-                className="border-0 px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                className="border-1 px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
               />
             </div>
           </div>
-          <div className="w-full lg:w-3/12 px-4">
+          <div className="w-full px-4 lg:w-3/12">
             <div className="relative w-full mb-3">
               <label
-                className="block text-blueGray-600 text-sm mb-2"
+                className="block mb-2 text-blueGray-600 text-md"
                 htmlFor="grid-password"
               >
                 City
@@ -191,14 +191,14 @@ const PersonalDetails = ({ onInputChange, data }) => {
               <input
                 type="text"
                 disabled
-                className="border-0 px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                className="border-1 px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
               />
             </div>
           </div>
-          <div className="w-full lg:w-3/12 px-4">
+          <div className="w-full px-4 lg:w-3/12">
             <div className="relative w-full mb-3">
               <label
-                className="block text-blueGray-600 text-sm mb-2"
+                className="block mb-2 text-blueGray-600 text-md"
                 htmlFor="grid-password"
               >
                 Postal Code
@@ -206,16 +206,16 @@ const PersonalDetails = ({ onInputChange, data }) => {
               <input
                 type="text"
                 disabled
-                className="border-0 px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                className="border-1 px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
               />
             </div>
           </div>
         </div>
         <div className="flex flex-wrap">
-          <div className="w-full lg:w-6/12 px-4">
+          <div className="w-full px-4 lg:w-6/12">
             <div className="relative w-full mb-3">
               <label
-                className="block text-blueGray-600 text-sm mb-2"
+                className="block mb-2 text-blueGray-600 text-md"
                 htmlFor="grid-password"
               >
                 Telephone No
@@ -223,14 +223,14 @@ const PersonalDetails = ({ onInputChange, data }) => {
               <input
                 type="text"
                 disabled
-                className="border-0 px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                className="border-1 px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
               />
             </div>
           </div>
-          <div className="w-full lg:w-6/12 px-4">
+          <div className="w-full px-4 lg:w-6/12">
             <div className="relative w-full mb-3">
               <label
-                className="block text-blueGray-600 text-sm mb-2"
+                className="block mb-2 text-blueGray-600 text-md"
                 htmlFor="grid-password"
               >
                 Mobile No
@@ -238,14 +238,14 @@ const PersonalDetails = ({ onInputChange, data }) => {
               <input
                 type="text"
                 disabled
-                className="border-0 px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                className="border-1 px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
               />
             </div>
           </div>
-          <div className="w-full lg:w-6/12 px-4">
+          <div className="w-full px-4 lg:w-6/12">
             <div className="relative w-full mb-3">
               <label
-                className="block text-blueGray-600 text-sm mb-2"
+                className="block mb-2 text-blueGray-600 text-md"
                 htmlFor="grid-password"
               >
                 Email
@@ -253,14 +253,14 @@ const PersonalDetails = ({ onInputChange, data }) => {
               <input
                 type="Email"
                 disabled
-                className="border-0 px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                className="border-1 px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
               />
             </div>
           </div>
-          <div className="w-full lg:w-6/12 px-4">
+          <div className="w-full px-4 lg:w-6/12">
             <div className="relative w-full mb-3">
               <label
-                className="block text-blueGray-600 text-sm mb-2"
+                className="block mb-2 text-blueGray-600 text-md"
                 htmlFor="grid-password"
               >
                 Preferred Language
@@ -268,14 +268,14 @@ const PersonalDetails = ({ onInputChange, data }) => {
               <input
                 type="text"
                 disabled
-                className="border-0 px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                className="border-1 px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
               />
             </div>
           </div>
-          <div className="w-full lg:w-6/12 px-4">
+          <div className="w-full px-4 lg:w-6/12">
             <div className="relative w-full mb-3">
               <label
-                className="block text-blueGray-600 text-sm mb-2"
+                className="block mb-2 text-blueGray-600 text-md"
                 htmlFor="grid-password"
               >
                 CEB Employee
@@ -283,7 +283,7 @@ const PersonalDetails = ({ onInputChange, data }) => {
               <input
                 type="text"
                 disabled
-                className="border-0 px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                className="border-1 px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
               />
             </div>
           </div>
