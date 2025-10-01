@@ -58,6 +58,7 @@ const ApplicantContact = ({ applicant = {}, onInputChange, contactData }) => {
                 htmlFor="grid-password"
               >
                 Mobile Number
+                
               </label>
               <input
                 type="text"
@@ -66,6 +67,7 @@ const ApplicantContact = ({ applicant = {}, onInputChange, contactData }) => {
                 onChange={handleChange}
                 className="border-1 px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                 placeholder="Enter your mobile number"
+                style={{border: "1px solid #ccc"}}
               />
               {errors.mobileNo && (
                 <p className="mt-1 text-xs text-red-500">{errors.mobileNo}</p>
@@ -88,6 +90,7 @@ const ApplicantContact = ({ applicant = {}, onInputChange, contactData }) => {
                 onChange={handleChange}
                 className="border-1 px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                 placeholder="Enter your email"
+                style={{border: "1px solid #ccc"}}
               />
               {errors.email && (
                 <p className="mt-1 text-xs text-red-500">{errors.email}</p>
@@ -112,6 +115,7 @@ const ApplicantContact = ({ applicant = {}, onInputChange, contactData }) => {
                 onChange={handleChange}
                 className="border-1 px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                 placeholder="Enter your Land number"
+                style={{border: "1px solid #ccc"}}
               />
               {errors.telephoneNo && (
                 <p className="mt-1 text-xs text-red-500">
@@ -129,6 +133,7 @@ const ApplicantContact = ({ applicant = {}, onInputChange, contactData }) => {
                 htmlFor="grid-password"
               >
                 Street Address
+                <span style={{ color: "red" }}>*</span>
               </label>
               <input
                 type="text"
@@ -137,6 +142,7 @@ const ApplicantContact = ({ applicant = {}, onInputChange, contactData }) => {
                 onChange={handleChange}
                 className="border-1 px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                 defaultValue="Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09"
+                style={{border: "1px solid #ccc"}}
               />
             </div>
           </div>
@@ -148,8 +154,10 @@ const ApplicantContact = ({ applicant = {}, onInputChange, contactData }) => {
               <label
                 className="block mb-2 text-md text-blueGray-600"
                 htmlFor="grid-password"
+                
               >
                 Suburb
+                <span style={{ color: "red" }}>*</span>
               </label>
               <input
                 type="text"
@@ -158,6 +166,7 @@ const ApplicantContact = ({ applicant = {}, onInputChange, contactData }) => {
                 onChange={handleChange}
                 className="border-1 px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                 defaultValue="New York"
+                style={{border: "1px solid #ccc"}}
               />
             </div>
           </div>
@@ -168,6 +177,7 @@ const ApplicantContact = ({ applicant = {}, onInputChange, contactData }) => {
                 htmlFor="grid-password"
               >
                 City
+                <span style={{ color: "red" }}>*</span>
               </label>
               <input
                 type="text"
@@ -176,6 +186,7 @@ const ApplicantContact = ({ applicant = {}, onInputChange, contactData }) => {
                 onChange={handleChange}
                 className="border-1 px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                 defaultValue="United States"
+                style={{border: "1px solid #ccc"}}
               />
             </div>
           </div>
@@ -194,6 +205,7 @@ const ApplicantContact = ({ applicant = {}, onInputChange, contactData }) => {
                 onChange={handleChange}
                 className="border-1 px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                 defaultValue="Postal Code"
+                style={{border: "1px solid #ccc"}}
               />
             </div>
           </div>

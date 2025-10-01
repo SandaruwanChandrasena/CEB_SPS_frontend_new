@@ -113,10 +113,12 @@ const ApplicantInfo = ({
                   name="idNo"
                   value={appData && appData.idNo}
                   onChange={handleChange}
-                  className={`border-1 px-3 h-0.5  placeholder-blueGray-300 text-black bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150 ${
+                  className={`px-3 h-0.5  placeholder-blueGray-300 text-black bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150 ${
                     nicError ? "border-red-500" : ""
                   }`}
                   placeholder="NIC No"
+
+                  style={{border: "1px solid #ccc"}}
                 />
                 {/* 
 //{isModify && ( */}
@@ -185,6 +187,9 @@ const ApplicantInfo = ({
                 value={appData?.firstName || ""}
                 onChange={handleChange}
                 className="border-1 px-3 h-0.5 placeholder-blueGray-300 text-black bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+
+                style={{border: "1px solid #ccc"}}
+
                 placeholder="Enter First Name"
               />
             </div>
@@ -203,6 +208,7 @@ const ApplicantInfo = ({
                 value={appData.lastName}
                 onChange={handleChange}
                 className="border-1 px-3 h-0.5 placeholder-blueGray-300 text-black bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                style={{border: "1px solid #ccc"}}
                 placeholder="Enter Last Name"
               />
             </div>
@@ -222,6 +228,7 @@ const ApplicantInfo = ({
                 value={appData.fullName}
                 onChange={handleChange}
                 className="border-1 px-3 h-0.5 placeholder-blueGray-300 text-black bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                style={{border: "1px solid #ccc"}}
                 placeholder="Enter Full Name"
               />
             </div>
@@ -239,6 +246,7 @@ const ApplicantInfo = ({
                 //value={appData.personalCorporate || ""}
                 onChange={handleChange}
                 className="border-1 px-3 h-0.5 placeholder-blueGray-300 text-black bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                style={{border: "1px solid #ccc"}}
               >
                 <option value="Per">Personal</option>
                 <option value="Cop">Corporate</option>
@@ -264,6 +272,8 @@ const ApplicantInfo = ({
                     defaultChecked
                     //  checked={appData.cebEmployee === "yes"}
                     onChange={handleChange}
+
+                    
                   />{" "}
                   Yes
                 </label>
