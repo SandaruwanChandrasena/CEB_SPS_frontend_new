@@ -141,37 +141,7 @@ const ApplicantInfo = ({
             </div>
           </div>
 
-          {/* raw 2  with file uplaod and ID no*/}
-
-          {/* <div className="w-full px-4 lg:w-6/12">
-            <div className="relative w-full mb-3">
-              <label
-                className="block mb-2 text-xs font-bold uppercase text-black"
-                htmlFor="grid-password"
-              >
-                ID NO
-              </label>
-              <input
-                type="text"
-                name="idNo"
-                value={appData.idNo}
-                onChange={handleChange}
-                className="w-full px-3 py-3 text-sm transition-all duration-150 ease-linear bg-white border-0 rounded shadow placeholder-blueGray-300 text-black focus:outline-none focus:ring"
-                defaultValue="ID Nomber"
-              />
-            </div>
-          </div>
-          <div className="w-full px-4 lg:w-6/12">
-            <div className="relative w-full mb-3">
-            <div className="w-full px-4 lg:w-24/12">
-            
-            <FileUpload />
-          </div>
-            </div>
-          </div> */}
-          {/* end */}
-
-          {/* personalCorporate */}
+         
 
           <div className="w-full px-4 lg:w-6/12">
             <div className="relative w-full mb-3">
