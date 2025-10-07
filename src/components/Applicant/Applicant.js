@@ -2,7 +2,8 @@ import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import ApplicantContact from "components/Tabs/ApplicantContact";
 import ApplicantInfo from "components/Tabs/ApplicantInfo";
-import { fetchApplicantById, saveApplicant, updateApplicant } from "api/applicants";
+import { fetchApplicantById, saveApplicant, updateApplicant, pingApplicants } from "api/applicants";
+import { buildApplicantPayload } from "api/payloads";
 
 const nicRegex = /^(\d{9}[Vv]|\d{12})$/;
 
@@ -12,7 +13,7 @@ const Applicant = ({ onFormSubmit, isModify = false, appData, setAppData }) => {
 
   const [searching, setSearching] = useState(false);
   const [searchError, setSearchError] = useState("");
-  const [idLocked, setIdLocked] = useState(false); // 🔒 lock ID after search
+  const [idLocked, setIdLocked] = useState(false);
 
   const [formData, setFormData] = useState({
     applicantInfo: {},
@@ -21,11 +22,10 @@ const Applicant = ({ onFormSubmit, isModify = false, appData, setAppData }) => {
 
   const handleInputChange = (section, patch) => {
     if (idLocked && Object.prototype.hasOwnProperty.call(patch, "idNo")) {
-      // Ignore idNo changes if locked
       const { idNo, ...rest } = patch;
       patch = rest;
     }
-    if (Object.keys(patch).length === 0) return;
+    if (!patch || Object.keys(patch).length === 0) return;
 
     setFormData((prev) => ({ ...prev, [section]: { ...prev[section], ...patch } }));
     setAppData?.((prev) => ({ ...(prev || {}), ...patch }));
@@ -40,6 +40,13 @@ const Applicant = ({ onFormSubmit, isModify = false, appData, setAppData }) => {
       return setSearchError("Invalid NIC format. Use 9 digits with V/v or 12 digits.");
 
     setSearching(true);
+    const ping = await pingApplicants();
+    if (!ping.ok) {
+      setSearching(false);
+      setSearchError(`Cannot reach backend: ${ping.message}`);
+      return;
+    }
+
     const resp = await fetchApplicantById(idNo);
     setSearching(false);
 
@@ -74,24 +81,35 @@ const Applicant = ({ onFormSubmit, isModify = false, appData, setAppData }) => {
       },
     });
 
-    setIdLocked(true); // 🔒 lock ID after search
+    setIdLocked(true);
+  };
+
+  const resetForm = () => {
+    setAppData({});
+    setFormData({ applicantInfo: {}, applicantContact: {} });
+    setIdLocked(false);
+    setCurrentIndex(0);
+    setSearchError("");
   };
 
   const handleSubmit = async () => {
     try {
-      if (isModify) {
-        await updateApplicant(appData.idNo, appData);
-      } else {
-        await saveApplicant(appData);
+      if (!appData) return;
+
+      const payload = buildApplicantPayload(appData);
+      console.log("[SUBMIT] Sending payload:", payload);
+
+      const result = isModify
+        ? await updateApplicant(payload.idNo, payload)
+        : await saveApplicant(payload);
+
+      if (!result.ok) {
+        alert(`Save failed (${result.status || "?"}): ${result.message}`);
+        return;
       }
 
       alert("Saved successfully!");
-
-      // ✅ Reset form after save
-      setAppData({});
-      setFormData({ applicantInfo: {}, applicantContact: {} });
-      setIdLocked(false);   // unlock ID for new search
-      setCurrentIndex(0);   // reset to first step
+      resetForm();
     } catch (err) {
       alert("Error while saving: " + (err.message || "Unknown"));
     }
@@ -99,7 +117,7 @@ const Applicant = ({ onFormSubmit, isModify = false, appData, setAppData }) => {
 
   const handleNext = () => currentIndex < 1 && setCurrentIndex((i) => i + 1);
   const handlePrevious = () => currentIndex > 0 && setCurrentIndex((i) => i - 1);
-  // const handleUpdateClick = () => history.push("/applicant/modifyapplicant");
+  const handleUpdateClick = () => history.push("/applicant/modifyapplicant");
 
   const tabs = [
     {

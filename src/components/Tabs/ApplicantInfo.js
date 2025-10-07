@@ -108,9 +108,9 @@ const ApplicantInfo = ({
                 )}
               </div>
 
-              {nicError && <p className="mt-1 text-xs text-red-500">{nicError}</p>}
+              {nicError && <p className="mt-1 text-xs" style={{ color: "red" }}>{nicError}</p>}
               {searchError && !nicError && (
-                <p className="mt-1 text-xs text-red-600">{searchError}</p>
+                <p className="mt-1 text-xs" style={{ color: "red" }}>{searchError}</p>
               )}
             </div>
           </div>
