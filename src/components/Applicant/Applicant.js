@@ -1,9 +1,8 @@
-// src/components/Applicant/Applicant.js
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import ApplicantContact from "components/Tabs/ApplicantContact";
 import ApplicantInfo from "components/Tabs/ApplicantInfo";
-import { fetchApplicantById } from "api/applicants";
+import { fetchApplicantById, saveApplicant, updateApplicant } from "api/applicants";
 
 const nicRegex = /^(\d{9}[Vv]|\d{12})$/;
 
@@ -11,11 +10,9 @@ const Applicant = ({ onFormSubmit, isModify = false, appData, setAppData }) => {
   const history = useHistory();
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  // search UI state
   const [searching, setSearching] = useState(false);
   const [searchError, setSearchError] = useState("");
-  // NEW: lock ID field after a successful search
-  const [idLocked, setIdLocked] = useState(false);
+  const [idLocked, setIdLocked] = useState(false); // 🔒 lock ID after search
 
   const [formData, setFormData] = useState({
     applicantInfo: {},
@@ -23,6 +20,13 @@ const Applicant = ({ onFormSubmit, isModify = false, appData, setAppData }) => {
   });
 
   const handleInputChange = (section, patch) => {
+    if (idLocked && Object.prototype.hasOwnProperty.call(patch, "idNo")) {
+      // Ignore idNo changes if locked
+      const { idNo, ...rest } = patch;
+      patch = rest;
+    }
+    if (Object.keys(patch).length === 0) return;
+
     setFormData((prev) => ({ ...prev, [section]: { ...prev[section], ...patch } }));
     setAppData?.((prev) => ({ ...(prev || {}), ...patch }));
   };
@@ -46,52 +50,76 @@ const Applicant = ({ onFormSubmit, isModify = false, appData, setAppData }) => {
     }
 
     const dto = resp.data || {};
-
-    // put full DTO into shared state so both tabs render
     setAppData?.(dto);
 
-    // (optional) keep tab splits if you use them elsewhere
-    const infoPatch = {
-      idType: dto.idType,
-      idNo: dto.idNo,
-      firstName: dto.firstName,
-      lastName: dto.lastName,
-      fullName: dto.fullName,
-      personalCorporate: dto.personalCorporate,
-      cebEmployee: dto.cebEmployee,
-      preferredLanguage: dto.preferredLanguage,
-    };
-    const contactPatch = {
-      mobileNo: dto.mobileNo,
-      email: dto.email,
-      telephoneNo: dto.telephoneNo,
-      streetAddress: dto.streetAddress,
-      suburb: dto.suburb,
-      city: dto.city,
-      postalCode: dto.postalCode,
-    };
+    setFormData({
+      applicantInfo: {
+        idType: dto.idType,
+        idNo: dto.idNo,
+        firstName: dto.firstName,
+        lastName: dto.lastName,
+        fullName: dto.fullName,
+        personalCorporate: dto.personalCorporate,
+        cebEmployee: dto.cebEmployee,
+        preferredLanguage: dto.preferredLanguage,
+      },
+      applicantContact: {
+        mobileNo: dto.mobileNo,
+        email: dto.email,
+        telephoneNo: dto.telephoneNo,
+        streetAddress: dto.streetAddress,
+        suburb: dto.suburb,
+        city: dto.city,
+        postalCode: dto.postalCode,
+      },
+    });
 
-    setFormData((prev) => ({
-      ...prev,
-      applicantInfo: { ...(prev.applicantInfo || {}), ...infoPatch },
-      applicantContact: { ...(prev.applicantContact || {}), ...contactPatch },
-    }));
-
-    // ✅ lock ID after successful fetch
-    setIdLocked(true);
+    setIdLocked(true); // 🔒 lock ID permanently after search
   };
 
-  // Allow changing ID again if needed
-  const handleResetId = () => {
-    setIdLocked(false);
-    setSearchError("");
-    setAppData?.((prev) => ({ ...(prev || {}), idNo: "" }));
+  const handleSubmit = async () => {
+    try {
+      if (isModify) {
+        await updateApplicant(appData.idNo, appData);
+      } else {
+        await saveApplicant(appData);
+      }
+
+      // ✅ Refresh form content after save/update
+      const resp = await fetchApplicantById(appData.idNo);
+      if (resp.ok) {
+        setAppData(resp.data);
+        setFormData({
+          applicantInfo: {
+            idType: resp.data.idType,
+            idNo: resp.data.idNo,
+            firstName: resp.data.firstName,
+            lastName: resp.data.lastName,
+            fullName: resp.data.fullName,
+            personalCorporate: resp.data.personalCorporate,
+            cebEmployee: resp.data.cebEmployee,
+            preferredLanguage: resp.data.preferredLanguage,
+          },
+          applicantContact: {
+            mobileNo: resp.data.mobileNo,
+            email: resp.data.email,
+            telephoneNo: resp.data.telephoneNo,
+            streetAddress: resp.data.streetAddress,
+            suburb: resp.data.suburb,
+            city: resp.data.city,
+            postalCode: resp.data.postalCode,
+          },
+        });
+      }
+
+      alert("Saved successfully!");
+    } catch (err) {
+      alert("Error while saving: " + (err.message || "Unknown"));
+    }
   };
 
   const handleNext = () => currentIndex < 1 && setCurrentIndex((i) => i + 1);
   const handlePrevious = () => currentIndex > 0 && setCurrentIndex((i) => i - 1);
-
-  const handleSubmit = () => onFormSubmit?.(formData);
   const handleUpdateClick = () => history.push("/applicant/modifyapplicant");
 
   const tabs = [
@@ -107,8 +135,7 @@ const Applicant = ({ onFormSubmit, isModify = false, appData, setAppData }) => {
           setAppData={setAppData}
           loading={searching}
           searchError={searchError}
-          idLocked={idLocked}          // <-- NEW
-          onResetId={handleResetId}    // <-- NEW
+          idLocked={idLocked}
         />
       ),
     },
@@ -128,13 +155,17 @@ const Applicant = ({ onFormSubmit, isModify = false, appData, setAppData }) => {
     <div className="w-full max-w-2xl p-6 bg-white rounded-lg">
       {/* Stepper */}
       <div className="flex items-center justify-center mt-4">
-        {["Applicant Information","Applicant Contact Details"].map((label, index) => (
+        {["Applicant Information", "Applicant Contact Details"].map((label, index) => (
           <div key={label} className="flex flex-col items-center justify-between px-12">
             <span
-              className={"flex flex-col items-center justify-center w-10 h-10 text-lg font-medium rounded-full border-2 mb-2"}
+              className={
+                "flex flex-col items-center justify-center w-10 h-10 text-lg font-medium rounded-full border-2 mb-2"
+              }
               style={{
-                backgroundColor: index < currentIndex ? "#34d399" : index === currentIndex ? "#ffd800" : "transparent",
-                borderColor: index < currentIndex ? "#34d399" : index === currentIndex ? "#ffd800" : "#d1d5db",
+                backgroundColor:
+                  index < currentIndex ? "#34d399" : index === currentIndex ? "#ffd800" : "transparent",
+                borderColor:
+                  index < currentIndex ? "#34d399" : index === currentIndex ? "#ffd800" : "#d1d5db",
                 color: index <= currentIndex ? "white" : "black",
               }}
             >
@@ -178,7 +209,9 @@ const Applicant = ({ onFormSubmit, isModify = false, appData, setAppData }) => {
                 >
                   Previous
                 </button>
-              ) : <div />}
+              ) : (
+                <div />
+              )}
 
               {currentIndex < 1 ? (
                 <button

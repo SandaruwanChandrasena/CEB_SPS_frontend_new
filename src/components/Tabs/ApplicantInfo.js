@@ -1,4 +1,3 @@
-// src/components/Tabs/ApplicantInfo.jsx
 import { useState } from "react";
 
 const nicRegex = /^(\d{9}[Vv]|\d{12})$/;
@@ -13,15 +12,14 @@ const ApplicantInfo = ({
   setAppData = () => {},
   loading = false,
   searchError = "",
-  idLocked = false,        // <-- NEW: lock flag from parent
-  onResetId = () => {},    // <-- NEW: allow unlock
+  idLocked = false,      // <-- lock flag from parent
 }) => {
   const [nicError, setNicError] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    // if ID is locked, ignore typing in idNo (readOnly is also set, but this is extra safety)
+    // Extra safety: if locked, ignore idNo changes entirely
     if (idLocked && name === "idNo") return;
 
     if (name === "idNo") {
@@ -59,7 +57,7 @@ const ApplicantInfo = ({
                     checked={(appData?.idType || "NIC") === "NIC"}
                     className="mr-1"
                     onChange={handleChange}
-                    disabled={idLocked}    // <-- lock type too
+                    disabled={idLocked}     // 🔒 lock type
                   />
                   NIC
                 </label>
@@ -72,7 +70,7 @@ const ApplicantInfo = ({
                     checked={(appData?.idType || "NIC") === "BRN"}
                     className="mr-1"
                     onChange={handleChange}
-                    disabled={idLocked}    // <-- lock type too
+                    disabled={idLocked}     // 🔒 lock type
                   />
                   Business Registration Number
                 </label>
@@ -80,7 +78,7 @@ const ApplicantInfo = ({
             </div>
           </div>
 
-          {/* ID Number + Search / Change ID */}
+          {/* ID Number + Search (hidden when locked) */}
           <div className="w-full px-4 lg:w-6/12">
             <div className="relative w-full mb-3">
               <label className="block mb-2 text-md text-black">ID Number</label>
@@ -91,13 +89,13 @@ const ApplicantInfo = ({
                   name="idNo"
                   value={appData?.idNo || ""}
                   onChange={handleChange}
-                  readOnly={idLocked}             // <-- make read-only after search
+                  readOnly={idLocked}               // 🔒 lock ID
                   className={`${inputBaseClass} ${nicError ? "border-red-500" : ""}`}
                   placeholder="NIC No"
                   style={readOnlyStyle}
                 />
 
-                {!idLocked ? (
+                {!idLocked && (
                   <button
                     className="px-4 ml-2 text-sm text-white rounded"
                     style={{ backgroundColor: "#7c0000" }}
@@ -106,16 +104,6 @@ const ApplicantInfo = ({
                     disabled={loading}
                   >
                     {loading ? "Searching..." : "Search"}
-                  </button>
-                ) : (
-                  <button
-                    className="px-4 ml-2 text-sm text-white rounded"
-                    style={{ backgroundColor: "#334155" }}
-                    type="button"
-                    onClick={onResetId}
-                    title="Change ID"
-                  >
-                    Change ID
                   </button>
                 )}
               </div>
@@ -138,7 +126,7 @@ const ApplicantInfo = ({
                 name="firstName"
                 value={appData?.firstName || ""}
                 onChange={handleChange}
-                className={`${inputBaseClass}`}
+                className={inputBaseClass}
                 style={{ border: "1px solid #ccc" }}
                 placeholder="Enter First Name"
               />
@@ -154,7 +142,7 @@ const ApplicantInfo = ({
                 name="lastName"
                 value={appData?.lastName || ""}
                 onChange={handleChange}
-                className={`${inputBaseClass}`}
+                className={inputBaseClass}
                 style={{ border: "1px solid #ccc" }}
                 placeholder="Enter Last Name"
               />
@@ -172,7 +160,7 @@ const ApplicantInfo = ({
                 name="fullName"
                 value={appData?.fullName || ""}
                 onChange={handleChange}
-                className={`${inputBaseClass}`}
+                className={inputBaseClass}
                 style={{ border: "1px solid #ccc" }}
                 placeholder="Enter Full Name"
               />
@@ -187,7 +175,7 @@ const ApplicantInfo = ({
                 name="personalCorporate"
                 value={appData?.personalCorporate || "Per"}
                 onChange={handleChange}
-                className={`${inputBaseClass}`}
+                className={inputBaseClass}
                 style={{ border: "1px solid #ccc" }}
               >
                 <option value="Per">Personal</option>
