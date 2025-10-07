@@ -1,73 +1,3 @@
-// import { useState } from "react";
-
-// import ApplicantContact from "components/Tabs/ApplicantContact";
-// import ApplicantInfo from "components/Tabs/ApplicantInfo";
-
-// const Applicant = () => {
-//   const [step, setStep] = useState(1);
-
-//   const nextStep = () => setStep(2);
-//   const prevStep = () => setStep(1);
-//   const handleSubmit = () => {
-//     alert("Form submitted successfully!"); // Replace this with actual form submission logic
-//   };
-
-//   return (
-//     <div className="relative flex flex-col w-full min-w-0 mb-6 break-words border-0 rounded-lg shadow-lg bg-blueGray-100">
-//       {/* Top Bar */}
-//       <div className="px-6 py-6 mb-0 bg-white rounded-t">
-//         <div className="flex justify-between text-center">
-//           {/* Dynamic Title */}
-//           <h6 className="text-xl font-bold text-blueGray-700">
-//             {step === 1 ? "Applicant Information" : "Applicant Contact Details"}
-//           </h6>
-
-//           {/* Navigation Buttons */}
-//           <div>
-//             {step > 1 && (
-//               <button
-//                 onClick={prevStep}
-//                 className="px-4 py-2 text-white rounded bg-lightBlue-500 "
-//               >
-//                 Previous
-//               </button>
-//             )}
-//             {step < 2 ? (
-//               <button
-//                 onClick={nextStep}
-//                 className="px-4 py-2 text-white rounded bg-lightBlue-500 "
-//               >
-//                 Next
-//               </button>
-//             ) : (
-//               <button
-//                 onClick={handleSubmit}
-//                 className="px-4 py-2 ml-2 text-white rounded bg-lightBlue-500"
-//               >
-//                 Submit
-//               </button>
-//             )}
-//           </div>
-//         </div>
-//       </div>
-
-//       {/* Content Section */}
-//       <div className="p-6">
-//         {step === 1 ? (
-//           <div className="relative flex flex-col w-full min-w-0 break-words border-0 rounded-lg shadow-lg bg-blueGray-100">
-//             <ApplicantInfo />
-//           </div>
-//         ) : (
-//           <div className="relative flex flex-col w-full min-w-0 break-words border-0 rounded-lg shadow-lg bg-blueGray-100">
-//             <ApplicantContact />
-//           </div>
-//         )}
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default Applicant;
 // src/components/Applicant/Applicant.js
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
@@ -81,20 +11,19 @@ const Applicant = ({ onFormSubmit, isModify = false, appData, setAppData }) => {
   const history = useHistory();
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  // Search UI state
+  // search UI state
   const [searching, setSearching] = useState(false);
   const [searchError, setSearchError] = useState("");
+  // NEW: lock ID field after a successful search
+  const [idLocked, setIdLocked] = useState(false);
 
-  // Optional split form data (we’ll also keep a single top-level appData as the source of truth)
   const [formData, setFormData] = useState({
     applicantInfo: {},
     applicantContact: {},
   });
 
   const handleInputChange = (section, patch) => {
-    // keep per-tab local
     setFormData((prev) => ({ ...prev, [section]: { ...prev[section], ...patch } }));
-    // keep top-level single object in sync (source of truth used by both tabs)
     setAppData?.((prev) => ({ ...(prev || {}), ...patch }));
   };
 
@@ -112,15 +41,16 @@ const Applicant = ({ onFormSubmit, isModify = false, appData, setAppData }) => {
 
     if (!resp.ok) {
       setSearchError(resp.message || "Search failed.");
+      setIdLocked(false);
       return;
     }
 
     const dto = resp.data || {};
 
-    // 1) Put entire DTO in top-level shared state so both tabs render immediately
+    // put full DTO into shared state so both tabs render
     setAppData?.(dto);
 
-    // 2) (Optional) Also split into tab buckets for any tab-specific logic
+    // (optional) keep tab splits if you use them elsewhere
     const infoPatch = {
       idType: dto.idType,
       idNo: dto.idNo,
@@ -131,7 +61,6 @@ const Applicant = ({ onFormSubmit, isModify = false, appData, setAppData }) => {
       cebEmployee: dto.cebEmployee,
       preferredLanguage: dto.preferredLanguage,
     };
-
     const contactPatch = {
       mobileNo: dto.mobileNo,
       email: dto.email,
@@ -147,6 +76,16 @@ const Applicant = ({ onFormSubmit, isModify = false, appData, setAppData }) => {
       applicantInfo: { ...(prev.applicantInfo || {}), ...infoPatch },
       applicantContact: { ...(prev.applicantContact || {}), ...contactPatch },
     }));
+
+    // ✅ lock ID after successful fetch
+    setIdLocked(true);
+  };
+
+  // Allow changing ID again if needed
+  const handleResetId = () => {
+    setIdLocked(false);
+    setSearchError("");
+    setAppData?.((prev) => ({ ...(prev || {}), idNo: "" }));
   };
 
   const handleNext = () => currentIndex < 1 && setCurrentIndex((i) => i + 1);
@@ -168,6 +107,8 @@ const Applicant = ({ onFormSubmit, isModify = false, appData, setAppData }) => {
           setAppData={setAppData}
           loading={searching}
           searchError={searchError}
+          idLocked={idLocked}          // <-- NEW
+          onResetId={handleResetId}    // <-- NEW
         />
       ),
     },
@@ -175,7 +116,7 @@ const Applicant = ({ onFormSubmit, isModify = false, appData, setAppData }) => {
       id: "contact",
       component: (
         <ApplicantContact
-          appData={appData} // IMPORTANT: render from the same source of truth as info tab
+          appData={appData}
           setAppData={setAppData}
           onInputChange={(data) => handleInputChange("applicantContact", data)}
         />
@@ -216,7 +157,7 @@ const Applicant = ({ onFormSubmit, isModify = false, appData, setAppData }) => {
 
           {/* Footer buttons */}
           <div className="flex justify-between px-12 mb-0 bg-white rounded-t">
-            <div className="ml-2">
+            {/* <div className="ml-2">
               {!isModify && (
                 <button
                   onClick={handleUpdateClick}
@@ -226,7 +167,7 @@ const Applicant = ({ onFormSubmit, isModify = false, appData, setAppData }) => {
                   Edit
                 </button>
               )}
-            </div>
+            </div> */}
 
             <div className="flex items-center justify-end mb-2 ml-2 mr-4">
               {currentIndex > 0 ? (

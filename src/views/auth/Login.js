@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom"; // useHistory for React Router v5
 import ceb from "../../assets/img/ceb.png";
-import bhImg from "../../assets/img/ceb-logo-and-wave.png";
+// import bhImg from "../../assets/img/ceb-logo-and-wave.png";
 import "../../assets/styles/bgImg.css";
 import { toast } from "react-toastify";
 
@@ -62,7 +62,7 @@ export default function Login() {
     <main>
       <section
         className="bg-container"
-        style={{ backgroundImage: `url(${bhImg})` }}
+        // style={{ backgroundImage: `url(${bhImg})` }}
       >
         <div className="bg-content">
           <div className="container h-full px-4 mx-auto">

@@ -13,11 +13,16 @@ const ApplicantInfo = ({
   setAppData = () => {},
   loading = false,
   searchError = "",
+  idLocked = false,        // <-- NEW: lock flag from parent
+  onResetId = () => {},    // <-- NEW: allow unlock
 }) => {
   const [nicError, setNicError] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+
+    // if ID is locked, ignore typing in idNo (readOnly is also set, but this is extra safety)
+    if (idLocked && name === "idNo") return;
 
     if (name === "idNo") {
       const trimmed = value.trim();
@@ -26,10 +31,16 @@ const ApplicantInfo = ({
     }
 
     const patch = { [name]: value };
-    // keep top-level single object in sync
     typeof setAppData === "function" && setAppData((prev) => ({ ...(prev || {}), ...patch }));
     typeof onInputChange === "function" && onInputChange(patch);
   };
+
+  const inputBaseClass =
+    "px-3 h-0.5 placeholder-blueGray-300 text-black bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150";
+
+  const readOnlyStyle = idLocked
+    ? { backgroundColor: "#f1f5f9", cursor: "not-allowed", border: "1px solid #cbd5e1" }
+    : { border: "1px solid #ccc" };
 
   return (
     <div className="flex-auto px-4 py-10 pt-2 lg:px-10">
@@ -48,6 +59,7 @@ const ApplicantInfo = ({
                     checked={(appData?.idType || "NIC") === "NIC"}
                     className="mr-1"
                     onChange={handleChange}
+                    disabled={idLocked}    // <-- lock type too
                   />
                   NIC
                 </label>
@@ -60,6 +72,7 @@ const ApplicantInfo = ({
                     checked={(appData?.idType || "NIC") === "BRN"}
                     className="mr-1"
                     onChange={handleChange}
+                    disabled={idLocked}    // <-- lock type too
                   />
                   Business Registration Number
                 </label>
@@ -67,7 +80,7 @@ const ApplicantInfo = ({
             </div>
           </div>
 
-          {/* ID Number + Search */}
+          {/* ID Number + Search / Change ID */}
           <div className="w-full px-4 lg:w-6/12">
             <div className="relative w-full mb-3">
               <label className="block mb-2 text-md text-black">ID Number</label>
@@ -78,22 +91,33 @@ const ApplicantInfo = ({
                   name="idNo"
                   value={appData?.idNo || ""}
                   onChange={handleChange}
-                  className={`px-3 h-0.5 placeholder-blueGray-300 text-black bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150 ${
-                    nicError ? "border-red-500" : ""
-                  }`}
+                  readOnly={idLocked}             // <-- make read-only after search
+                  className={`${inputBaseClass} ${nicError ? "border-red-500" : ""}`}
                   placeholder="NIC No"
-                  style={{ border: "1px solid #ccc" }}
+                  style={readOnlyStyle}
                 />
 
-                <button
-                  className="px-4 ml-2 text-sm text-white rounded"
-                  style={{ backgroundColor: "#7c0000" }}
-                  type="button"
-                  onClick={handleSearch}
-                  disabled={loading}
-                >
-                  {loading ? "Searching..." : "Search"}
-                </button>
+                {!idLocked ? (
+                  <button
+                    className="px-4 ml-2 text-sm text-white rounded"
+                    style={{ backgroundColor: "#7c0000" }}
+                    type="button"
+                    onClick={handleSearch}
+                    disabled={loading}
+                  >
+                    {loading ? "Searching..." : "Search"}
+                  </button>
+                ) : (
+                  <button
+                    className="px-4 ml-2 text-sm text-white rounded"
+                    style={{ backgroundColor: "#334155" }}
+                    type="button"
+                    onClick={onResetId}
+                    title="Change ID"
+                  >
+                    Change ID
+                  </button>
+                )}
               </div>
 
               {nicError && <p className="mt-1 text-xs text-red-500">{nicError}</p>}
@@ -114,7 +138,7 @@ const ApplicantInfo = ({
                 name="firstName"
                 value={appData?.firstName || ""}
                 onChange={handleChange}
-                className="border-1 px-3 h-0.5 placeholder-blueGray-300 text-black bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                className={`${inputBaseClass}`}
                 style={{ border: "1px solid #ccc" }}
                 placeholder="Enter First Name"
               />
@@ -130,7 +154,7 @@ const ApplicantInfo = ({
                 name="lastName"
                 value={appData?.lastName || ""}
                 onChange={handleChange}
-                className="border-1 px-3 h-0.5 placeholder-blueGray-300 text-black bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                className={`${inputBaseClass}`}
                 style={{ border: "1px solid #ccc" }}
                 placeholder="Enter Last Name"
               />
@@ -148,7 +172,7 @@ const ApplicantInfo = ({
                 name="fullName"
                 value={appData?.fullName || ""}
                 onChange={handleChange}
-                className="border-1 px-3 h-0.5 placeholder-blueGray-300 text-black bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                className={`${inputBaseClass}`}
                 style={{ border: "1px solid #ccc" }}
                 placeholder="Enter Full Name"
               />
@@ -163,7 +187,7 @@ const ApplicantInfo = ({
                 name="personalCorporate"
                 value={appData?.personalCorporate || "Per"}
                 onChange={handleChange}
-                className="border-1 px-3 h-0.5 placeholder-blueGray-300 text-black bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                className={`${inputBaseClass}`}
                 style={{ border: "1px solid #ccc" }}
               >
                 <option value="Per">Personal</option>
@@ -174,7 +198,7 @@ const ApplicantInfo = ({
 
           {/* CEB Employee */}
           <div className="w-full px-4 lg:w-6/12">
-          <div className="relative w-full mb-3">
+            <div className="relative w-full mb-3">
               <label className="block mb-2 text-md text-black">CEB Employee</label>
               <div className="flex space-x-4 ">
                 <label className="mr-4 text-sm">

@@ -1,6 +1,6 @@
 import React from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
-// import ceblogo from "assets/img/ceb-logo-and-wave.png";
+import ceblogo from "assets/img/ceb-logo-and-wave.png";
 
 // views
 
@@ -17,14 +17,21 @@ export default function Auth() {
           style={{ height: "100vh" }}
         >
           <div
-            className="absolute top-0 w-full h-full bg-white bg-no-repeat bg-full"
-            // style={{
-            //   backgroundImage: `url(${ceblogo})`,
-            //   backgroundPosition: "bottom", 
-            //   opacity:0.6,
-            //   zIndex: -1,
-            // }}
-          ></div>
+            className="absolute top-0 w-full h-full bg-no-repeat"
+            style={{
+              backgroundImage: `url(${ceblogo})`,
+              backgroundSize: "100% 70%", // full width, scale height
+              backgroundPosition: "center 120px", // push image 50px down
+              zIndex: -1,
+            }}
+          >
+            {/* Overlay layer */}
+            <div
+              className="absolute top-0 left-0 w-full h-full bg-white shadow-lg"
+              style={{ opacity: 0.2 }}
+            ></div>
+          </div>
+
           <Switch>
             <Route path="/auth/login" exact component={Login} />
             <Route path="/auth/register" exact component={Register} />
