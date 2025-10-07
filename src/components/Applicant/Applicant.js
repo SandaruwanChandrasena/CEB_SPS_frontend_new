@@ -74,7 +74,7 @@ const Applicant = ({ onFormSubmit, isModify = false, appData, setAppData }) => {
       },
     });
 
-    setIdLocked(true); // 🔒 lock ID permanently after search
+    setIdLocked(true); // 🔒 lock ID after search
   };
 
   const handleSubmit = async () => {
@@ -85,34 +85,13 @@ const Applicant = ({ onFormSubmit, isModify = false, appData, setAppData }) => {
         await saveApplicant(appData);
       }
 
-      // ✅ Refresh form content after save/update
-      const resp = await fetchApplicantById(appData.idNo);
-      if (resp.ok) {
-        setAppData(resp.data);
-        setFormData({
-          applicantInfo: {
-            idType: resp.data.idType,
-            idNo: resp.data.idNo,
-            firstName: resp.data.firstName,
-            lastName: resp.data.lastName,
-            fullName: resp.data.fullName,
-            personalCorporate: resp.data.personalCorporate,
-            cebEmployee: resp.data.cebEmployee,
-            preferredLanguage: resp.data.preferredLanguage,
-          },
-          applicantContact: {
-            mobileNo: resp.data.mobileNo,
-            email: resp.data.email,
-            telephoneNo: resp.data.telephoneNo,
-            streetAddress: resp.data.streetAddress,
-            suburb: resp.data.suburb,
-            city: resp.data.city,
-            postalCode: resp.data.postalCode,
-          },
-        });
-      }
-
       alert("Saved successfully!");
+
+      // ✅ Reset form after save
+      setAppData({});
+      setFormData({ applicantInfo: {}, applicantContact: {} });
+      setIdLocked(false);   // unlock ID for new search
+      setCurrentIndex(0);   // reset to first step
     } catch (err) {
       alert("Error while saving: " + (err.message || "Unknown"));
     }
@@ -120,7 +99,7 @@ const Applicant = ({ onFormSubmit, isModify = false, appData, setAppData }) => {
 
   const handleNext = () => currentIndex < 1 && setCurrentIndex((i) => i + 1);
   const handlePrevious = () => currentIndex > 0 && setCurrentIndex((i) => i - 1);
-  const handleUpdateClick = () => history.push("/applicant/modifyapplicant");
+  // const handleUpdateClick = () => history.push("/applicant/modifyapplicant");
 
   const tabs = [
     {
@@ -158,9 +137,7 @@ const Applicant = ({ onFormSubmit, isModify = false, appData, setAppData }) => {
         {["Applicant Information", "Applicant Contact Details"].map((label, index) => (
           <div key={label} className="flex flex-col items-center justify-between px-12">
             <span
-              className={
-                "flex flex-col items-center justify-center w-10 h-10 text-lg font-medium rounded-full border-2 mb-2"
-              }
+              className="flex flex-col items-center justify-center w-10 h-10 text-lg font-medium rounded-full border-2 mb-2"
               style={{
                 backgroundColor:
                   index < currentIndex ? "#34d399" : index === currentIndex ? "#ffd800" : "transparent",
