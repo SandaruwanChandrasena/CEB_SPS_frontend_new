@@ -12,25 +12,24 @@ const ApplicantInfo = ({
   setAppData = () => {},
   loading = false,
   searchError = "",
-  idLocked = false,      // <-- lock flag from parent
+  idLocked = false, // lock flag from parent
+  errors = {},      // <-- receive errors
+  firstErrorRef,    // <-- for optional scroll
 }) => {
   const [nicError, setNicError] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-
-    // Extra safety: if locked, ignore idNo changes entirely
     if (idLocked && name === "idNo") return;
-
     if (name === "idNo") {
       const trimmed = value.trim();
-      if (!nicRegex.test(trimmed)) setNicError("Invalid NIC number. Use 9 digits with V/v or 12 digits.");
+      if (!nicRegex.test(trimmed))
+        setNicError("Invalid NIC number. Use 9 digits with V/v or 12 digits.");
       else setNicError("");
     }
-
     const patch = { [name]: value };
-    typeof setAppData === "function" && setAppData((prev) => ({ ...(prev || {}), ...patch }));
-    typeof onInputChange === "function" && onInputChange(patch);
+    setAppData?.((prev) => ({ ...(prev || {}), ...patch }));
+    onInputChange?.(patch);
   };
 
   const inputBaseClass =
@@ -39,6 +38,18 @@ const ApplicantInfo = ({
   const readOnlyStyle = idLocked
     ? { backgroundColor: "#f1f5f9", cursor: "not-allowed", border: "1px solid #cbd5e1" }
     : { border: "1px solid #ccc" };
+
+  const editableHint = idLocked ? "You can edit this field." : undefined;
+  const lockedHint = "Locked after search.";
+  const hintProps = (isEditable = true) => (isEditable && idLocked ? { title: editableHint } : {});
+
+  const errorBorder = (name) => (errors[name] ? "border-red-500" : "");
+  const errMsg = (name) =>
+    errors[name] ? (
+      <p className="mt-1 text-xs text-red-600" ref={!firstErrorRef?.current ? firstErrorRef : undefined}>
+        {errors[name]}
+      </p>
+    ) : null;
 
   return (
     <div className="flex-auto px-4 py-10 pt-2 lg:px-10">
@@ -57,7 +68,8 @@ const ApplicantInfo = ({
                     checked={(appData?.idType || "NIC") === "NIC"}
                     className="mr-1"
                     onChange={handleChange}
-                    disabled={idLocked}     // 🔒 lock type
+                    disabled={idLocked}
+                    title={idLocked ? lockedHint : undefined}
                   />
                   NIC
                 </label>
@@ -70,15 +82,17 @@ const ApplicantInfo = ({
                     checked={(appData?.idType || "NIC") === "BRN"}
                     className="mr-1"
                     onChange={handleChange}
-                    disabled={idLocked}     // 🔒 lock type
+                    disabled={idLocked}
+                    title={idLocked ? lockedHint : undefined}
                   />
                   Business Registration Number
                 </label>
               </div>
+              {errMsg("idType")}
             </div>
           </div>
 
-          {/* ID Number + Search (hidden when locked) */}
+          {/* ID Number + Search */}
           <div className="w-full px-4 lg:w-6/12">
             <div className="relative w-full mb-3">
               <label className="block mb-2 text-md text-black">ID Number</label>
@@ -89,10 +103,11 @@ const ApplicantInfo = ({
                   name="idNo"
                   value={appData?.idNo || ""}
                   onChange={handleChange}
-                  readOnly={idLocked}               // 🔒 lock ID
-                  className={`${inputBaseClass} ${nicError ? "border-red-500" : ""}`}
+                  readOnly={idLocked}
+                  className={`${inputBaseClass} ${errorBorder("idNo")} ${nicError ? "border-red-500" : ""}`}
                   placeholder="NIC No"
                   style={readOnlyStyle}
+                  title={idLocked ? lockedHint : undefined}
                 />
 
                 {!idLocked && (
@@ -102,15 +117,19 @@ const ApplicantInfo = ({
                     type="button"
                     onClick={handleSearch}
                     disabled={loading}
+                    title="Search by ID number"
                   >
                     {loading ? "Searching..." : "Search"}
                   </button>
                 )}
               </div>
 
-              {nicError && <p className="mt-1 text-xs" style={{ color: "red" }}>{nicError}</p>}
-              {searchError && !nicError && (
-                <p className="mt-1 text-xs" style={{ color: "red" }}>{searchError}</p>
+              {nicError && <p className="mt-1 text-xs text-red-600">{nicError}</p>}
+              {!nicError && errMsg("idNo")}
+              {searchError && !nicError && !errors.idNo && (
+                <p className="mt-1 text-xs" style={{ color: "red" }}>
+                  {searchError}
+                </p>
               )}
             </div>
           </div>
@@ -126,10 +145,12 @@ const ApplicantInfo = ({
                 name="firstName"
                 value={appData?.firstName || ""}
                 onChange={handleChange}
-                className={inputBaseClass}
+                className={`${inputBaseClass} ${errorBorder("firstName")} hover:border-yellow-400`}
                 style={{ border: "1px solid #ccc" }}
                 placeholder="Enter First Name"
+                {...hintProps(true)}
               />
+              {errMsg("firstName")}
             </div>
           </div>
 
@@ -142,10 +163,12 @@ const ApplicantInfo = ({
                 name="lastName"
                 value={appData?.lastName || ""}
                 onChange={handleChange}
-                className={inputBaseClass}
+                className={`${inputBaseClass} ${errorBorder("lastName")} hover:border-yellow-400`}
                 style={{ border: "1px solid #ccc" }}
                 placeholder="Enter Last Name"
+                {...hintProps(true)}
               />
+              {errMsg("lastName")}
             </div>
           </div>
 
@@ -160,10 +183,12 @@ const ApplicantInfo = ({
                 name="fullName"
                 value={appData?.fullName || ""}
                 onChange={handleChange}
-                className={inputBaseClass}
+                className={`${inputBaseClass} ${errorBorder("fullName")} hover:border-yellow-400`}
                 style={{ border: "1px solid #ccc" }}
                 placeholder="Enter Full Name"
+                {...hintProps(true)}
               />
+              {errMsg("fullName")}
             </div>
           </div>
 
@@ -175,12 +200,14 @@ const ApplicantInfo = ({
                 name="personalCorporate"
                 value={appData?.personalCorporate || "Per"}
                 onChange={handleChange}
-                className={inputBaseClass}
+                className={`${inputBaseClass} ${errorBorder("personalCorporate")} hover:border-yellow-400`}
                 style={{ border: "1px solid #ccc" }}
+                {...hintProps(true)}
               >
                 <option value="Per">Personal</option>
                 <option value="Cop">Corporate</option>
               </select>
+              {errMsg("personalCorporate")}
             </div>
           </div>
 
@@ -189,7 +216,7 @@ const ApplicantInfo = ({
             <div className="relative w-full mb-3">
               <label className="block mb-2 text-md text-black">CEB Employee</label>
               <div className="flex space-x-4 ">
-                <label className="mr-4 text-sm">
+                <label className="mr-4 text-sm" title={editableHint}>
                   <input
                     type="radio"
                     name="cebEmployee"
@@ -200,7 +227,7 @@ const ApplicantInfo = ({
                   />{" "}
                   Yes
                 </label>
-                <label className="text-sm">
+                <label className="text-sm" title={editableHint}>
                   <input
                     type="radio"
                     name="cebEmployee"
@@ -212,6 +239,7 @@ const ApplicantInfo = ({
                   No
                 </label>
               </div>
+              {errMsg("cebEmployee")}
             </div>
           </div>
 
@@ -220,7 +248,7 @@ const ApplicantInfo = ({
             <div className="relative w-full mb-3">
               <label className="block mb-2 text-md text-black">Preferred Language</label>
               <div className="flex space-x-4">
-                <label className="mr-4 text-sm">
+                <label className="mr-4 text-sm" title={editableHint}>
                   <input
                     type="radio"
                     name="preferredLanguage"
@@ -231,7 +259,7 @@ const ApplicantInfo = ({
                   />{" "}
                   Sinhala
                 </label>
-                <label className="text-sm">
+                <label className="text-sm" title={editableHint}>
                   <input
                     type="radio"
                     name="preferredLanguage"
@@ -243,9 +271,9 @@ const ApplicantInfo = ({
                   English
                 </label>
               </div>
+              {errMsg("preferredLanguage")}
             </div>
           </div>
-
         </div>
       </form>
     </div>

@@ -1,18 +1,21 @@
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom"; // useHistory for React Router v5
 import ceb from "../../assets/img/ceb.png";
-// import bhImg from "../../assets/img/ceb-logo-and-wave.png";
 import "../../assets/styles/bgImg.css";
 import { toast } from "react-toastify";
 
 export default function Login() {
   const [userId, setUserId] = useState("");
   const [password, setPassword] = useState("");
+  const [hoverForgot, setHoverForgot] = useState(false);
+  const [hoverRegister, setHoverRegister] = useState(false);
+
   const history = useHistory(); // useHistory hook
   const baseUrl = process.env.REACT_APP_API_BASE_URL;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
       const response = await fetch(`${baseUrl}/api/v1/auth/login`, {
         method: "POST",
@@ -55,31 +58,27 @@ export default function Login() {
       }
     } catch (error) {
       console.error("Error:", error);
+      toast.error("Network or server error. Please try again.");
     }
   };
 
   return (
     <main>
-      <section
-        className="bg-container"
-        // style={{ backgroundImage: `url(${bhImg})` }}
-      >
+      <section className="bg-container">
         <div className="bg-content">
           <div className="container h-full px-4 mx-auto">
             <div className="flex items-center justify-center h-full">
               <div className="w-full px-4 lg:w-4/12">
                 <div className="relative flex flex-col w-full min-w-0 mb-6 break-words border-0 rounded-lg shadow-lg bg-blueGray-200">
                   <div className="flex items-center justify-center">
-                    <img
-                      alt="CEB Logo"
-                      className="w-20 h-20 mt-8"
-                      src={ceb}
-                    />
+                    <img alt="CEB Logo" className="w-20 h-20 mt-8" src={ceb} />
                   </div>
+
                   <div className="flex-auto px-4 py-10 pt-0 mt-2 lg:px-10">
                     <div className="text-sm text-center text-blueGray-400">
                       Sign In With Credentials
                     </div>
+
                     <form onSubmit={handleSubmit}>
                       <div className="relative w-full mb-3">
                         <label
@@ -126,24 +125,49 @@ export default function Login() {
                   </div>
                 </div>
 
+                {/* Links row with inline CSS + hover via state */}
                 <div className="relative flex flex-wrap mt-6">
                   <div className="w-1/2">
                     <Link
                       to="/auth/forgot"
-                      className="text-sm text-blueGray-400"
+                      style={{
+                        color: "white",
+                        fontSize: "14px",
+                        fontWeight: hoverForgot ? "700" : "400",
+                        textDecoration: "none",
+                        cursor: "pointer",
+                        transition: "font-weight 120ms ease",
+                      }}
+                      onMouseEnter={() => setHoverForgot(true)}
+                      onMouseLeave={() => setHoverForgot(false)}
+                      onFocus={() => setHoverForgot(true)}
+                      onBlur={() => setHoverForgot(false)}
                     >
                       Forgot password?
                     </Link>
                   </div>
+
                   <div className="w-1/2 text-right">
                     <Link
                       to="/auth/register"
-                      className="text-sm text-blueGray-400"
+                      style={{
+                        color: "white",
+                        fontSize: "14px",
+                        fontWeight: hoverRegister ? "700" : "400",
+                        textDecoration: "none",
+                        cursor: "pointer",
+                        transition: "font-weight 120ms ease",
+                      }}
+                      onMouseEnter={() => setHoverRegister(true)}
+                      onMouseLeave={() => setHoverRegister(false)}
+                      onFocus={() => setHoverRegister(true)}
+                      onBlur={() => setHoverRegister(false)}
                     >
                       Create new account
                     </Link>
                   </div>
                 </div>
+                {/* End links row */}
               </div>
             </div>
           </div>

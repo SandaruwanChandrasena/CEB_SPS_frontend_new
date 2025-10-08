@@ -21,14 +21,15 @@ export default function Auth() {
             style={{
               backgroundImage: `url(${ceblogo})`,
               backgroundSize: "100% 70%", // full width, scale height
-              backgroundPosition: "center 120px", // push image 50px down
-              zIndex: -1,
+              backgroundPosition: "center 250px", // push image 50px down
+              zIndex: -2,
+              filter: "blur(1px)",
             }}
           >
             {/* Overlay layer */}
             <div
               className="absolute top-0 left-0 w-full h-full bg-white shadow-lg"
-              style={{ opacity: 0.2 }}
+              style={{ opacity: 0.1 }}
             ></div>
           </div>
 
