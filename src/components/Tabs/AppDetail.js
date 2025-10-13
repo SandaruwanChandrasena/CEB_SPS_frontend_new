@@ -38,8 +38,9 @@ const AppDetails = ({ onInputChange, isModify, data, handleSearch }) => {
                   name="applicationId"
                   value={appData.applicationId}
                   onChange={handleChange}
-                  className="border-1 px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                  className=" px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                   placeholder="430.00/ABS/25/xxxx"
+                  style={{ border: "1px solid #ccc" }}
                 />
                 {isModify && (
                   <button
@@ -64,8 +65,14 @@ const AppDetails = ({ onInputChange, isModify, data, handleSearch }) => {
               <input
                 type="date"
                 name="date"
-                className="w-full px-3 py-2 text-sm transition-all duration-150 ease-linear bg-white rounded shadow border-1 placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring"
-                style={{ border: "1px solid black" }}
+                className="w-full px-3 py-2 text-sm transition-all duration-150 ease-linear bg-white rounded shadow placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring"
+                style={{
+                  border: "1px solid #ccc",
+                  borderRadius: "4px",
+                  padding: "8px",
+                  backgroundColor: "white",
+                  color: "#1e293b", // text-blueGray-600
+                }}
               />
             </div>
           </div>
@@ -80,6 +87,7 @@ const AppDetails = ({ onInputChange, isModify, data, handleSearch }) => {
               <select
                 name="area"
                 className="border-1 px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                style={{ border: "1px solid #ccc" }}
               >
                 <option value="AREA - MAWANELLA">Area - Mawanella</option>
                 <option value="AREA - OTHER">Area - Other</option>
@@ -98,6 +106,7 @@ const AppDetails = ({ onInputChange, isModify, data, handleSearch }) => {
                 type="text"
                 className="border-1 px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                 placeholder="430.00"
+                style={{ border: "1px solid #ccc" }}
               />
             </div>
           </div>
@@ -114,6 +123,7 @@ const AppDetails = ({ onInputChange, isModify, data, handleSearch }) => {
               <select
                 name="ApplicationType"
                 className="border-1 px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                style={{ border: "1px solid #ccc" }}
               >
                 <option value="BS">BS</option>
                 <option value="Other">OTHER</option>
@@ -131,6 +141,7 @@ const AppDetails = ({ onInputChange, isModify, data, handleSearch }) => {
               <select
                 name="FoundSource"
                 className="border-1 px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                style={{ border: "1px solid #ccc" }}
               >
                 <option value="ADB">ADB</option>
                 <option value="Other">OTHER</option>
@@ -150,6 +161,7 @@ const AppDetails = ({ onInputChange, isModify, data, handleSearch }) => {
               <input
                 type="text"
                 className="border-1 px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                style={{ border: "1px solid #ccc" }}
               />
             </div>
           </div>
@@ -167,6 +179,7 @@ const AppDetails = ({ onInputChange, isModify, data, handleSearch }) => {
                 value={appData.description}
                 onChange={handleChange}
                 className="border-1 px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                style={{ border: "1px solid #ccc" }}
               />
             </div>
           </div>
@@ -183,6 +196,7 @@ const AppDetails = ({ onInputChange, isModify, data, handleSearch }) => {
               <input
                 type="text"
                 className="border-1 px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                style={{ border: "1px solid #ccc" }}
               />
             </div>
           </div>
@@ -200,6 +214,7 @@ const AppDetails = ({ onInputChange, isModify, data, handleSearch }) => {
                 value={appData.jobName}
                 onChange={handleChange}
                 className="border-1 px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                style={{ border: "1px solid #ccc" }}
               />
             </div>
           </div>
@@ -217,6 +232,7 @@ const AppDetails = ({ onInputChange, isModify, data, handleSearch }) => {
                 <select
                   name="FoundSource"
                   className="mr-2 border-1 px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                  style={{ border: "1px solid #ccc" }}
                 >
                   <option value="permanent">Permanent</option>
                   <option value="Other">OTHER</option>
@@ -224,6 +240,7 @@ const AppDetails = ({ onInputChange, isModify, data, handleSearch }) => {
                 <select
                   name="FoundSource"
                   className="mr-2 border-1 px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                  style={{ border: "1px solid #ccc" }}
                 >
                   <option value="Years">Years</option>
                   <option value="Other">OTHER</option>
@@ -231,6 +248,7 @@ const AppDetails = ({ onInputChange, isModify, data, handleSearch }) => {
                 <input
                   type="text"
                   className="border-1 px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                  style={{ border: "1px solid #ccc" }}
                 />
               </div>
             </div>
