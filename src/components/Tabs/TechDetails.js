@@ -47,6 +47,8 @@ const TechDetails = () => {
               </div>
             </div>
           </div>
+
+
           <div className="w-full px-4 lg:w-6/12">
             <div className="relative w-full mb-2">
               <label
@@ -71,7 +73,9 @@ const TechDetails = () => {
               </div>
             </div>
           </div>
-          <div className="w-full px-4 lg:w-3/12">
+
+
+          <div className="w-full px-4 lg:w-4/12">
             <div className="relative w-full mb-3">
               <label
                 className="block mb-2 text-md text-blueGray-600"
@@ -81,10 +85,13 @@ const TechDetails = () => {
               </label>
               <input
                 type="text"
-                className="border-1 px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                className=" px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                style={{ border: "1px solid #ccc" }}
               />
             </div>
           </div>
+
+
           <div className="w-full px-4 lg:w-4/12">
             <div className="relative w-full mb-3">
               <label
@@ -95,10 +102,13 @@ const TechDetails = () => {
               </label>
               <input
                 type="text"
-                className="border-1 px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                className=" px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                style={{ border: "1px solid #ccc" }}
               />
             </div>
           </div>
+
+
           <div className="w-full px-4 lg:w-4/12">
             <div className="relative w-full mb-3">
               <label
@@ -109,11 +119,14 @@ const TechDetails = () => {
               </label>
               <input
                 type="text"
-                className="border-1 px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                className=" px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                style={{ border: "1px solid #ccc" }}
               />
             </div>
           </div>
-          <div className="w-full px-4 lg:w-4/12">
+
+
+          <div className="w-full px-4 lg:w-5/12">
             <div className="relative w-full mb-3">
               <label
                 className="block mb-2 text-md text-blueGray-600"
@@ -123,20 +136,25 @@ const TechDetails = () => {
               </label>
               <select
                 name="supplytype"
-                className="border-1 px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                className=" px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                style={{ border: "1px solid #ccc" }}
               >
                 <option value="Industry">Industry</option>
                 <option value="AREA - OTHER">OTHER</option>
               </select>
             </div>
           </div>
+
+
           <div className="w-full px-4 lg:w-6/12">
             <label className="block mb-2 text-md text-blueGray-600">
               Document to Be Submitted
             </label>
             <select
-              className="border-1 px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+              className=" px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
               onChange={(e) => setSelectedDoc(e.target.value)}
+
+              style={{ border: "1px solid #ccc" }}
             >
               <option value="">Select Document</option>
               <option value="id_proof">ID Proof</option>
@@ -176,8 +194,10 @@ const TechDetails = () => {
               Document to Be Submitted
             </label>
             <select
-              className="border-1 px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+              className=" px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
               onChange={(e) => setSelectedDoc(e.target.value)}
+
+              style={{ border: "1px solid #ccc" }}
             >
               <option value="">Select Document</option>
               <option value="id_proof">ID Proof</option>

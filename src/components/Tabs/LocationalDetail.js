@@ -38,7 +38,9 @@ const LocationalDetails = ({ onInputChange, data }) => {
                 name="streetAddress"
                 value={locationalData.streetAddress}
                 onChange={handleChange}
-                className="border-1 px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                className=" px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+
+                style={{ border: "1px solid #ccc" }}
               />
             </div>
           </div>
@@ -55,7 +57,9 @@ const LocationalDetails = ({ onInputChange, data }) => {
                 name="suburb"
                 value={locationalData.suburb}
                 onChange={handleChange}
-                className="border-1 px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                className="px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+
+                style={{ border: "1px solid #ccc" }}
               />
             </div>
           </div>
@@ -72,7 +76,9 @@ const LocationalDetails = ({ onInputChange, data }) => {
                 name="city"
                 value={locationalData.city}
                 onChange={handleChange}
-                className="border-1 px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                className=" px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+
+                style={{ border: "1px solid #ccc" }}
               />
             </div>
           </div>
@@ -90,11 +96,11 @@ const LocationalDetails = ({ onInputChange, data }) => {
                   name="postalCode"
                   value={locationalData.postalCode}
                   onChange={handleChange}
-                  className="border-1 px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                  className=" px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+
+                  style={{ border: "1px solid #ccc" }}
                 />
-                <button className="px-4 py-2 ml-3 mr-1 text-sm text-white transition-all duration-150 ease-linear rounded shadow outline-none bg-lightBlue-500 active:bg-lightBlue-600 hover:shadow-md focus:outline-none" style={{ backgroundColor: "#7c0000" }}>
-                  Search
-                </button>
+                
               </div>
             </div>
           </div>
@@ -109,11 +115,15 @@ const LocationalDetails = ({ onInputChange, data }) => {
               <div className="flex ">
                 <input
                   type="text"
-                  className="1 px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                  className=" px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+
+                  style={{ border: "1px solid #ccc" }}
                 />
                 <select
                   name="district"
-                  className="border-1 ml-2 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                  className="ml-2 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+
+                  style={{ border: "1px solid #ccc" }}
                 >
                   <option value="G">G</option>
                   <option value="OTHER">OTHER</option>
@@ -131,7 +141,9 @@ const LocationalDetails = ({ onInputChange, data }) => {
               </label>
               <input
                 type="text"
-                className="border-1 px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                className=" px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+
+                style={{ border: "1px solid #ccc" }}
               />
             </div>
           </div>
@@ -145,7 +157,9 @@ const LocationalDetails = ({ onInputChange, data }) => {
               </label>
               <input
                 type="text"
-                className="border-1 px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                className="px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+
+                style={{ border: "1px solid #ccc" }}
               />
             </div>
           </div>
@@ -160,11 +174,15 @@ const LocationalDetails = ({ onInputChange, data }) => {
               <div className="flex ">
                 <input
                   type="text"
-                  className="border-1 px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                  className="px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+
+                  style={{ border: "1px solid #ccc" }}
                 />
                 <select
                   name="electorate"
-                  className="border-1 ml-2 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                  className=" ml-2 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+
+                  style={{ border: "1px solid #ccc" }}
                 >
                   <option value="AN">AN</option>
                   <option value="OTHER">OTHER</option>
@@ -182,7 +200,9 @@ const LocationalDetails = ({ onInputChange, data }) => {
               </label>
               <input
                 type="text"
-                className="border-1 px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                className=" px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+
+                style={{ border: "1px solid #ccc" }}
               />
             </div>
           </div>
@@ -197,11 +217,15 @@ const LocationalDetails = ({ onInputChange, data }) => {
               <div className="flex ">
                 <input
                   type="text"
-                  className="border-1 px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                  className="px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+
+                  style={{ border: "1px solid #ccc" }}
                 />
                 <select
                   name="csc"
-                  className="border-1 ml-2 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                  className=" ml-2 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+
+                  style={{ border: "1px solid #ccc" }}
                 >
                   <option value="AB">AB</option>
                   <option value="OTHER">OTHER</option>

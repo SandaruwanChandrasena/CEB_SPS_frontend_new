@@ -3,9 +3,15 @@ import LocationalDetails from "components/Tabs/LocationalDetail";
 import PersonalDetails from "components/Tabs/PersonalDetail";
 import TechDetails from "components/Tabs/TechDetails";
 import { CheckCircle } from "lucide-react";
-import { useState } from "react";
-import React from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
+
+import {
+  mapApplicantToPersonal,
+  mapApplicantToLocational,
+  mapApplicantToApplication,
+  mapApplicantToTech,
+} from "utils/applicantMappers";
 
 // Order: 1) Personal, 2) Application, 3) Service Location, 4) Technical
 const tabs = [
@@ -42,6 +48,17 @@ const NewApplication = ({
 
   const handleSubmit = () => {
     onFormSubmit(formData);
+  };
+
+  // NEW: hydrate all tabs when Applicant is found from NIC search
+  const hydrateFromApplicant = (applicantDto) => {
+    setFormData((prev) => ({
+      ...prev,
+      personalDetails:   { ...(prev.personalDetails || {}),   ...mapApplicantToPersonal(applicantDto) },
+      locationalDetails: { ...(prev.locationalDetails || {}), ...mapApplicantToLocational(applicantDto) },
+      appDetails:        { ...(prev.appDetails || {}),        ...mapApplicantToApplication(applicantDto) },
+      techDetails:       { ...(prev.techDetails || {}),       ...mapApplicantToTech(applicantDto) },
+    }));
   };
 
   return (
@@ -93,6 +110,7 @@ const NewApplication = ({
         {tabs[currentIndex].id === "personal" && (
           <PersonalDetails
             onInputChange={(data) => handleInputChange("personalDetails", data)}
+            onApplicantFound={hydrateFromApplicant}    // <-- IMPORTANT
             data={formData.personalDetails}
           />
         )}
@@ -116,19 +134,19 @@ const NewApplication = ({
         {tabs[currentIndex].id === "technical" && (
           <TechDetails
             onInputChange={(data) => handleInputChange("techDetails", data)}
-            // data={formData.TechDetails}
+            // data={formData.techDetails}
           />
         )}
       </div>
 
-      {/* Nav buttons only */}
+      {/* Nav buttons */}
       <div className="flex justify-end px-12 ml-2">
         <div className="flex items-center justify-end mt-2 mb-4 mr-1">
           {currentIndex > 0 && (
             <button
               onClick={handlePrevious}
               style={{ backgroundColor: "#7c0000" }}
-              className="px-6 py-2 mr-1 text-sm text-white transition-all duration-150 ease-linear rounded shadow outline-none active:bg-lightBlue-600 hover:shadow-md focus:outline-none"
+              className="px-6 py-2 mr-1 text-sm text-white transition-all duration-150 ease-linear rounded shadow outline-none hover:shadow-md focus:outline-none"
             >
               Previous
             </button>
@@ -138,14 +156,14 @@ const NewApplication = ({
             <button
               onClick={handleNext}
               style={{ backgroundColor: "#7c0000" }}
-              className="px-6 py-2 mr-1 text-sm text-white transition-all duration-150 ease-linear rounded shadow outline-none active:bg-lightBlue-600 hover:shadow-md focus:outline-none"
+              className="px-6 py-2 mr-1 text-sm text-white transition-all duration-150 ease-linear rounded shadow outline-none hover:shadow-md focus:outline-none"
             >
               Next
             </button>
           ) : (
             <button
               onClick={handleSubmit}
-              className="px-6 py-2 mr-1 text-sm text-white transition-all duration-150 ease-linear rounded shadow outline-none bg-emerald-400 active:bg-emerald-600 hover:shadow-md focus:outline-none"
+              className="px-6 py-2 mr-1 text-sm text-white transition-all duration-150 ease-linear rounded shadow outline-none bg-emerald-400 hover:shadow-md focus:outline-none"
             >
               {isModify ? "Update" : "Submit"}
             </button>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-const PersonalDetails = ({ onInputChange, data }) => {
+const PersonalDetails = ({ onInputChange, data, onApplicantFound }) => {
   const [personalData, setPersonalData] = useState({
     idType: "",
     idNo: "",
@@ -19,9 +19,8 @@ const PersonalDetails = ({ onInputChange, data }) => {
 
   const [loading, setLoading] = useState(false);
 
-  // e.g. http://<nginx>/SPS (no trailing slash)
-  const baseUrl =
-    process.env.REACT_APP_API_BASE_URL?.replace(/\/+$/, "") || "";
+  // e.g. http://localhost:8088/SPS  (no trailing slash)
+  const baseUrl = process.env.REACT_APP_API_BASE_URL?.replace(/\/+$/, "") || "";
 
   useEffect(() => {
     if (data) setPersonalData((prev) => ({ ...prev, ...data }));
@@ -54,7 +53,6 @@ const PersonalDetails = ({ onInputChange, data }) => {
         credentials: "include",
       });
 
-      // If applicant is not found, show the message and stop.
       if (res.status === 404) {
         alert(
           "No applicant found for this ID.\n\nPlease go to the Applicant section first, fill the Applicant form, and register before proceeding."
@@ -69,7 +67,7 @@ const PersonalDetails = ({ onInputChange, data }) => {
 
       const a = await res.json(); // ApplicantDTO
 
-      // Map ApplicantDTO -> our local state keys
+      // map ApplicantDTO -> local personalData keys
       const mapped = {
         idType: a.idType || "",
         idNo: a.idNo || personalData.idNo,
@@ -83,12 +81,17 @@ const PersonalDetails = ({ onInputChange, data }) => {
         mobileNo: a.mobileNo || "",
         email: a.email || "",
         preferredLanguage: a.preferredLanguage || "",
-        cebEmployee:
-          a.cebEmployee == null ? "" : String(a.cebEmployee).trim(),
+        cebEmployee: a.cebEmployee == null ? "" : String(a.cebEmployee).trim(),
       };
 
+      // update this form
       setPersonalData((prev) => ({ ...prev, ...mapped }));
       onInputChange({ ...personalData, ...mapped });
+
+      // NEW: tell parent to hydrate other tabs too
+      if (typeof onApplicantFound === "function") {
+        onApplicantFound(a);
+      }
     } catch (err) {
       console.error(err);
       alert("Failed to retrieve applicant. Please try again later.");
@@ -111,7 +114,9 @@ const PersonalDetails = ({ onInputChange, data }) => {
                 name="idType"
                 value={personalData.idType}
                 onChange={handleChange}
-                className="border-1 px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                className="px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+
+                style={{ border: "1px solid #ccc" }}
               />
             </div>
           </div>
@@ -127,13 +132,15 @@ const PersonalDetails = ({ onInputChange, data }) => {
                   name="idNo"
                   value={personalData.idNo}
                   onChange={handleChange}
-                  className="border-1 px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                  className="bpx-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+
+                  style={{ border: "1px solid #ccc" }}
                 />
                 <button
                   onClick={handleSearch}
                   disabled={loading}
                   style={{ backgroundColor: "#7c0000" }}
-                  className="px-4 py-2 ml-2 mr-1 text-sm text-white transition-all duration-150 ease-linear rounded shadow outline-none active:bg-lightBlue-600 hover:shadow-md focus:outline-none disabled:opacity-60"
+                  className="px-4 py-2 ml-2 mr-1 text-sm text-white transition-all duration-150 ease-linear rounded shadow outline-none hover:shadow-md focus:outline-none disabled:opacity-60"
                 >
                   {loading ? "Searching..." : "Search"}
                 </button>
@@ -141,6 +148,7 @@ const PersonalDetails = ({ onInputChange, data }) => {
             </div>
           </div>
 
+          {/* Names */}
           <div className="w-full px-4 lg:w-6/12">
             <div className="relative w-full mb-3">
               <label className="block mb-2 text-blueGray-600 text-md">
@@ -151,7 +159,9 @@ const PersonalDetails = ({ onInputChange, data }) => {
                 name="fname"
                 value={personalData.fname}
                 disabled
-                className="border-1 px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                className=" px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+
+                style={{ border: "1px solid #ccc" }}
               />
             </div>
           </div>
@@ -166,13 +176,15 @@ const PersonalDetails = ({ onInputChange, data }) => {
                 name="lname"
                 value={personalData.lname}
                 disabled
-                className="border-1 px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                className=" px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+
+                style={{ border: "1px solid #ccc" }}
               />
             </div>
           </div>
         </div>
 
-        {/* Address block */}
+        {/* Address */}
         <div className="flex flex-wrap">
           <div className="w-full px-4 lg:w-3/12">
             <div className="relative w-full mb-3">
@@ -184,7 +196,9 @@ const PersonalDetails = ({ onInputChange, data }) => {
                 name="streetAddress"
                 value={personalData.streetAddress}
                 disabled
-                className="border-1 px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                className="px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+
+                style={{ border: "1px solid #ccc" }}
               />
             </div>
           </div>
@@ -198,7 +212,9 @@ const PersonalDetails = ({ onInputChange, data }) => {
                 name="suburb"
                 value={personalData.suburb}
                 disabled
-                className="border-1 px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                className=" px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+
+                style={{ border: "1px solid #ccc" }}
               />
             </div>
           </div>
@@ -212,7 +228,9 @@ const PersonalDetails = ({ onInputChange, data }) => {
                 name="city"
                 value={personalData.city}
                 disabled
-                className="border-1 px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                className=" px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+
+                style={{ border: "1px solid #ccc" }}
               />
             </div>
           </div>
@@ -226,13 +244,14 @@ const PersonalDetails = ({ onInputChange, data }) => {
                 name="postalCode"
                 value={personalData.postalCode}
                 disabled
-                className="border-1 px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                className=" px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                style={{ border: "1px solid #ccc" }}
               />
             </div>
           </div>
         </div>
 
-        {/* Contacts & flags */}
+        {/* Contact */}
         <div className="flex flex-wrap">
           <div className="w-full px-4 lg:w-6/12">
             <div className="relative w-full mb-3">
@@ -244,7 +263,8 @@ const PersonalDetails = ({ onInputChange, data }) => {
                 name="telephoneNo"
                 value={personalData.telephoneNo}
                 disabled
-                className="border-1 px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                className=" px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                style={{ border: "1px solid #ccc" }}
               />
             </div>
           </div>
@@ -259,7 +279,8 @@ const PersonalDetails = ({ onInputChange, data }) => {
                 name="mobileNo"
                 value={personalData.mobileNo}
                 disabled
-                className="border-1 px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                className=" px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                style={{ border: "1px solid #ccc" }}
               />
             </div>
           </div>
@@ -274,7 +295,8 @@ const PersonalDetails = ({ onInputChange, data }) => {
                 name="email"
                 value={personalData.email}
                 disabled
-                className="border-1 px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                className=" px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                style={{ border: "1px solid #ccc" }}
               />
             </div>
           </div>
@@ -289,7 +311,9 @@ const PersonalDetails = ({ onInputChange, data }) => {
                 name="preferredLanguage"
                 value={personalData.preferredLanguage}
                 disabled
-                className="border-1 px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                className=" px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+
+                style={{ border: "1px solid #ccc" }}
               />
             </div>
           </div>
@@ -310,7 +334,8 @@ const PersonalDetails = ({ onInputChange, data }) => {
                     : ""
                 }
                 disabled
-                className="border-1 px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                className=" px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                style={{ border: "1px solid #ccc" }}
               />
             </div>
           </div>
