@@ -27,19 +27,23 @@ export function mapApplicantToLocational(app) {
   };
 }
 
-/**
- * Most of your Application tab fields don't exist on APPLICANT.
- * Keep them blank or set lightweight defaults if you want.
- */
-export function mapApplicantToApplication(app) {
+// Most application-tab values are user entries; keep minimal defaults
+export function mapApplicantToApplication(_app) {
   return {
-    applicationId: "",  // stays user-entered
-    description: "",    // e.g. `New app for ${app.firstName} ${app.lastName}`
-    jobName: "",        // not in APPLICANT
+    applicationId: "",
+    deptId: "",
+    submitDate: "",       // yyyy-mm-dd
+    applicationType: "BS",
+    preparedBy: "WEB",
+    status: "N",
+    description: "",
+    durationType: "",
+    duration: "",
+    isLoanApp: "N",
+    jobName: "",
   };
 }
 
-// Tech tab has no direct mapping from APPLICANT in your schema today.
-export function mapApplicantToTech(app) {
+export function mapApplicantToTech(_app) {
   return {};
 }
