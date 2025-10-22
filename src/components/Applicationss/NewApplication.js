@@ -1,9 +1,11 @@
+// src/pages/NewApplication.jsx
 import AppDetails from "components/Tabs/AppDetail";
 import LocationalDetails from "components/Tabs/LocationalDetail";
 import PersonalDetails from "components/Tabs/PersonalDetail";
 import TechDetails from "components/Tabs/TechDetails";
 import { CheckCircle } from "lucide-react";
 import React, { useState } from "react";
+import { api } from "api/client";
 
 import {
   mapApplicantToPersonal,
@@ -12,7 +14,6 @@ import {
   mapApplicantToTech,
 } from "utils/applicantMappers";
 
-// Wizard tabs (unchanged order / labels)
 const tabs = [
   { id: "personal", label: "Personal Details", component: <PersonalDetails /> },
   { id: "application", label: "Application Details", component: <AppDetails /> },
@@ -29,26 +30,23 @@ const NewApplication = () => {
     techDetails: {},
   });
 
-  // Base API ("/SPS" – your nginx/WildFly context). Remove trailing slash if any.
-  const API_BASE = (process.env.REACT_APP_API_BASE_URL || "/SPS").replace(/\/+$/, "");
-
-  // keep per-tab state merged
   const handleInputChange = (section, data) => {
     setFormData((prev) => ({ ...prev, [section]: { ...prev[section], ...data } }));
   };
 
-  // hydrate all tabs when a valid Applicant is found on Personal tab
   const hydrateFromApplicant = (applicantDto) => {
     setFormData((prev) => ({
       ...prev,
-      personalDetails:   { ...(prev.personalDetails || {}),   ...mapApplicantToPersonal(applicantDto) },
-      locationalDetails: { ...(prev.locationalDetails || {}), ...mapApplicantToLocational(applicantDto) },
-      appDetails:        { ...(prev.appDetails || {}),        ...mapApplicantToApplication(applicantDto) },
-      techDetails:       { ...(prev.techDetails || {}),       ...mapApplicantToTech(applicantDto) },
+      personalDetails: { ...(prev.personalDetails || {}), ...mapApplicantToPersonal(applicantDto) },
+      locationalDetails: {
+        ...(prev.locationalDetails || {}),
+        ...mapApplicantToLocational(applicantDto),
+      },
+      appDetails: { ...(prev.appDetails || {}), ...mapApplicantToApplication(applicantDto) },
+      techDetails: { ...(prev.techDetails || {}), ...mapApplicantToTech(applicantDto) },
     }));
   };
 
-  // POST to backend
   const handleSubmit = async (e) => {
     e?.preventDefault?.();
 
@@ -56,25 +54,22 @@ const NewApplication = () => {
       const p = formData.personalDetails || {};
       const a = formData.appDetails || {};
 
-      // Map UI → backend DTO (only Application table fields we agreed to save)
       const payload = {
         applicationId: (a.applicationId || "").trim(),
         deptId: (a.deptId || "").trim(),
         applicationType: a.applicationType || "BS",
         submitDate: a.submitDate
-          ? `${a.submitDate}T00:00:00` // yyyy-MM-dd -> ISO local
+          ? `${a.submitDate}T00:00:00`
           : new Date().toISOString().slice(0, 19),
         idNo: (p.idNo || "").trim(),
         preparedBy: a.preparedBy || "WEB",
         status: a.status || "N",
         description: a.description || "",
-        // Optional extras (your table has columns for these)
         durationType: a.durationType || "",
         duration: a.duration ? Number(a.duration) : null,
         isLoanApp: a.isLoanApp || "N",
       };
 
-      // quick client-side validation
       const required = {
         applicationId: "Temporary ID",
         deptId: "CostCenter",
@@ -89,32 +84,12 @@ const NewApplication = () => {
         }
       }
 
-      const res = await fetch(`${API_BASE}/api/applications`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        // If you need Basic auth, add it here:
-        // headers: {
-        //   "Content-Type": "application/json",
-        //   Authorization:
-        //     "Basic " +
-        //     btoa(`${process.env.REACT_APP_API_BASIC_USER}:${process.env.REACT_APP_API_BASIC_PASS}`),
-        // },
-        body: JSON.stringify(payload),
-        credentials: "include",
-      });
+      // ✅ axios client adds Basic Auth automatically
+      const { data: saved } = await api.post("/applications", payload);
 
-      if (!res.ok) {
-        const errText = await res.text();
-        console.error("Save failed:", errText);
-        alert(`❌ Save failed:\n${errText}`);
-        return;
-      }
-
-      const saved = await res.json();
       console.log("✅ Saved application:", saved);
       alert("✅ Application saved successfully!");
 
-      // (optional) reset just description/duration fields; keep IDs
       setFormData((prev) => ({
         ...prev,
         appDetails: {
@@ -127,7 +102,7 @@ const NewApplication = () => {
       }));
     } catch (err) {
       console.error(err);
-      alert("❌ Error submitting application: " + err.message);
+      alert("❌ Error submitting application: " + (err?.response?.data?.error || err.message));
     }
   };
 
@@ -156,7 +131,7 @@ const NewApplication = () => {
               }`}
             >
               {index > 0 && (
-                <div className="absolute left-0 top-1/2 transform -translate-y-1/2 w-full h-0.5 bg-gray-300 z-0" />
+                <div className="absolute left-0 top-1/2 -translate-y-1/2 w-full h-0.5 bg-gray-300 z-0" />
               )}
               <div
                 className="flex items-center justify-center w-10 h-10 transition-all border-2 rounded-full"
@@ -176,9 +151,7 @@ const NewApplication = () => {
 
       {/* Title */}
       <div className="flex justify-center mb-2 text-center">
-        <h6 className="text-xl font-bold text-blueGray-700">
-          {tabs[currentIndex].label}
-        </h6>
+        <h6 className="text-xl font-bold text-blueGray-700">{tabs[currentIndex].label}</h6>
       </div>
 
       {/* Content */}

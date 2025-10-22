@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { api } from "api/client";
 
 const PersonalDetails = ({ onInputChange, data, onApplicantFound }) => {
   const [personalData, setPersonalData] = useState({
@@ -18,9 +19,6 @@ const PersonalDetails = ({ onInputChange, data, onApplicantFound }) => {
   });
 
   const [loading, setLoading] = useState(false);
-
-  // e.g. http://localhost:8088/SPS  (no trailing slash)
-  const baseUrl = process.env.REACT_APP_API_BASE_URL?.replace(/\/+$/, "") || "";
 
   useEffect(() => {
     if (data) setPersonalData((prev) => ({ ...prev, ...data }));
@@ -43,31 +41,11 @@ const PersonalDetails = ({ onInputChange, data, onApplicantFound }) => {
     try {
       setLoading(true);
 
-      const url = `${baseUrl}/api/applicants/search?idNo=${encodeURIComponent(
-        personalData.idNo.trim()
-      )}`;
-
-      const res = await fetch(url, {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
+      // ✅ axios client adds baseURL (/SPS/api) and Basic Auth
+      const { data: a } = await api.get("/applicants/search", {
+        params: { idNo: personalData.idNo.trim() },
       });
 
-      if (res.status === 404) {
-        alert(
-          "No applicant found for this ID.\n\nPlease go to the Applicant section first, fill the Applicant form, and register before proceeding."
-        );
-        return;
-      }
-
-      if (!res.ok) {
-        const msg = await res.text();
-        throw new Error(msg || `HTTP ${res.status}`);
-      }
-
-      const a = await res.json(); // ApplicantDTO
-
-      // map ApplicantDTO -> local personalData keys
       const mapped = {
         idType: a.idType || "",
         idNo: a.idNo || personalData.idNo,
@@ -84,17 +62,19 @@ const PersonalDetails = ({ onInputChange, data, onApplicantFound }) => {
         cebEmployee: a.cebEmployee == null ? "" : String(a.cebEmployee).trim(),
       };
 
-      // update this form
       setPersonalData((prev) => ({ ...prev, ...mapped }));
       onInputChange({ ...personalData, ...mapped });
 
-      // NEW: tell parent to hydrate other tabs too
-      if (typeof onApplicantFound === "function") {
-        onApplicantFound(a);
-      }
+      if (typeof onApplicantFound === "function") onApplicantFound(a);
     } catch (err) {
-      console.error(err);
-      alert("Failed to retrieve applicant. Please try again later.");
+      if (err?.response?.status === 404) {
+        alert(
+          "No applicant found for this ID.\n\nPlease go to the Applicant section first, fill the Applicant form, and register before proceeding."
+        );
+      } else {
+        console.error(err);
+        alert("Failed to retrieve applicant. Please try again later.");
+      }
     } finally {
       setLoading(false);
     }
@@ -106,16 +86,13 @@ const PersonalDetails = ({ onInputChange, data, onApplicantFound }) => {
         <div className="flex flex-wrap">
           <div className="w-full px-4 lg:w-6/12">
             <div className="relative w-full mb-3">
-              <label className="block mb-2 text-blueGray-600 text-md">
-                Id Type
-              </label>
+              <label className="block mb-2 text-blueGray-600 text-md">Id Type</label>
               <input
                 type="text"
                 name="idType"
                 value={personalData.idType}
                 onChange={handleChange}
                 className="px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-
                 style={{ border: "1px solid #ccc" }}
               />
             </div>
@@ -123,9 +100,7 @@ const PersonalDetails = ({ onInputChange, data, onApplicantFound }) => {
 
           <div className="w-full px-4 lg:w-6/12">
             <div className="relative w-full mb-3">
-              <label className="block mb-2 text-blueGray-600 text-md">
-                Id No
-              </label>
+              <label className="block mb-2 text-blueGray-600 text-md">Id No</label>
               <div className="flex">
                 <input
                   type="text"
@@ -133,7 +108,6 @@ const PersonalDetails = ({ onInputChange, data, onApplicantFound }) => {
                   value={personalData.idNo}
                   onChange={handleChange}
                   className="bpx-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-
                   style={{ border: "1px solid #ccc" }}
                 />
                 <button
@@ -151,16 +125,13 @@ const PersonalDetails = ({ onInputChange, data, onApplicantFound }) => {
           {/* Names */}
           <div className="w-full px-4 lg:w-6/12">
             <div className="relative w-full mb-3">
-              <label className="block mb-2 text-blueGray-600 text-md">
-                First Name (Initials)
-              </label>
+              <label className="block mb-2 text-blueGray-600 text-md">First Name (Initials)</label>
               <input
                 type="text"
                 name="fname"
                 value={personalData.fname}
                 disabled
                 className=" px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-
                 style={{ border: "1px solid #ccc" }}
               />
             </div>
@@ -168,16 +139,13 @@ const PersonalDetails = ({ onInputChange, data, onApplicantFound }) => {
 
           <div className="w-full px-4 lg:w-6/12">
             <div className="relative w-full mb-3">
-              <label className="block mb-2 text-blueGray-600 text-md">
-                Last Name
-              </label>
+              <label className="block mb-2 text-blueGray-600 text-md">Last Name</label>
               <input
                 type="text"
                 name="lname"
                 value={personalData.lname}
                 disabled
                 className=" px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-
                 style={{ border: "1px solid #ccc" }}
               />
             </div>
@@ -188,57 +156,46 @@ const PersonalDetails = ({ onInputChange, data, onApplicantFound }) => {
         <div className="flex flex-wrap">
           <div className="w-full px-4 lg:w-3/12">
             <div className="relative w-full mb-3">
-              <label className="block mb-2 text-blueGray-600 text-md">
-                Street Address
-              </label>
+              <label className="block mb-2 text-blueGray-600 text-md">Street Address</label>
               <input
                 type="text"
                 name="streetAddress"
                 value={personalData.streetAddress}
                 disabled
                 className="px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-
                 style={{ border: "1px solid #ccc" }}
               />
             </div>
           </div>
           <div className="w-full px-4 lg:w-3/12">
             <div className="relative w-full mb-3">
-              <label className="block mb-2 text-blueGray-600 text-md">
-                Suburb
-              </label>
+              <label className="block mb-2 text-blueGray-600 text-md">Suburb</label>
               <input
                 type="text"
                 name="suburb"
                 value={personalData.suburb}
                 disabled
                 className=" px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-
                 style={{ border: "1px solid #ccc" }}
               />
             </div>
           </div>
           <div className="w-full px-4 lg:w-3/12">
             <div className="relative w-full mb-3">
-              <label className="block mb-2 text-blueGray-600 text-md">
-                City
-              </label>
+              <label className="block mb-2 text-blueGray-600 text-md">City</label>
               <input
                 type="text"
                 name="city"
                 value={personalData.city}
                 disabled
                 className=" px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-
                 style={{ border: "1px solid #ccc" }}
               />
             </div>
           </div>
           <div className="w-full px-4 lg:w-3/12">
             <div className="relative w-full mb-3">
-              <label className="block mb-2 text-blueGray-600 text-md">
-                Postal Code
-              </label>
+              <label className="block mb-2 text-blueGray-600 text-md">Postal Code</label>
               <input
                 type="text"
                 name="postalCode"
@@ -255,9 +212,7 @@ const PersonalDetails = ({ onInputChange, data, onApplicantFound }) => {
         <div className="flex flex-wrap">
           <div className="w-full px-4 lg:w-6/12">
             <div className="relative w-full mb-3">
-              <label className="block mb-2 text-blueGray-600 text-md">
-                Telephone No
-              </label>
+              <label className="block mb-2 text-blueGray-600 text-md">Telephone No</label>
               <input
                 type="text"
                 name="telephoneNo"
@@ -271,9 +226,7 @@ const PersonalDetails = ({ onInputChange, data, onApplicantFound }) => {
 
           <div className="w-full px-4 lg:w-6/12">
             <div className="relative w-full mb-3">
-              <label className="block mb-2 text-blueGray-600 text-md">
-                Mobile No
-              </label>
+              <label className="block mb-2 text-blueGray-600 text-md">Mobile No</label>
               <input
                 type="text"
                 name="mobileNo"
@@ -287,9 +240,7 @@ const PersonalDetails = ({ onInputChange, data, onApplicantFound }) => {
 
           <div className="w-full px-4 lg:w-6/12">
             <div className="relative w-full mb-3">
-              <label className="block mb-2 text-blueGray-600 text-md">
-                Email
-              </label>
+              <label className="block mb-2 text-blueGray-600 text-md">Email</label>
               <input
                 type="email"
                 name="email"
@@ -303,16 +254,13 @@ const PersonalDetails = ({ onInputChange, data, onApplicantFound }) => {
 
           <div className="w-full px-4 lg:w-6/12">
             <div className="relative w-full mb-3">
-              <label className="block mb-2 text-blueGray-600 text-md">
-                Preferred Language
-              </label>
+              <label className="block mb-2 text-blueGray-600 text-md">Preferred Language</label>
               <input
                 type="text"
                 name="preferredLanguage"
                 value={personalData.preferredLanguage}
                 disabled
                 className=" px-3 h-0.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-
                 style={{ border: "1px solid #ccc" }}
               />
             </div>
@@ -320,9 +268,7 @@ const PersonalDetails = ({ onInputChange, data, onApplicantFound }) => {
 
           <div className="w-full px-4 lg:w-6/12">
             <div className="relative w-full mb-3">
-              <label className="block mb-2 text-blueGray-600 text-md">
-                CEB Employee
-              </label>
+              <label className="block mb-2 text-blueGray-600 text-md">CEB Employee</label>
               <input
                 type="text"
                 name="cebEmployee"

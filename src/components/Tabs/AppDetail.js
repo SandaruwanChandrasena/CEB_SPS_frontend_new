@@ -25,7 +25,6 @@ const AppDetails = ({ onInputChange, data }) => {
     let v = value;
     if (name === "duration" && v !== "") v = v.replace(/[^\d]/g, "");
     if (name === "isLoanApp" && type === "radio") v = value === "Yes" ? "Y" : "N";
-
     const next = { ...appData, [name]: v };
     setAppData(next);
     onInputChange(next);
@@ -38,9 +37,7 @@ const AppDetails = ({ onInputChange, data }) => {
           {/* Temporary ID */}
           <div className="w-full px-4 lg:w-6/12">
             <div className="relative w-full mb-3">
-              <label className="block mb-2 text-md text-blueGray-600">
-                Temporary ID
-              </label>
+              <label className="block mb-2 text-md text-blueGray-600">Temporary ID</label>
               <div className="flex">
                 <input
                   type="text"
@@ -70,7 +67,7 @@ const AppDetails = ({ onInputChange, data }) => {
             </div>
           </div>
 
-          {/* Area (kept, but not sent) */}
+          {/* Area */}
           <div className="w-full px-4 lg:w-6/12">
             <div className="relative w-full mb-3">
               <label className="block mb-2 text-md text-blueGray-600">Area</label>
@@ -90,9 +87,7 @@ const AppDetails = ({ onInputChange, data }) => {
           {/* CostCenter -> deptId */}
           <div className="w-full px-4 lg:w-6/12">
             <div className="relative w-full mb-3">
-              <label className="block mb-2 text-md text-blueGray-600">
-                CostCenter
-              </label>
+              <label className="block mb-2 text-md text-blueGray-600">CostCenter</label>
               <input
                 type="text"
                 name="deptId"
@@ -106,13 +101,11 @@ const AppDetails = ({ onInputChange, data }) => {
           </div>
         </div>
 
-        {/* Type + Found Source (kept UI; only type is sent) */}
+        {/* Type + Found Source */}
         <div className="flex flex-wrap">
           <div className="w-full px-4 lg:w-6/12">
             <div className="relative w-full mb-3">
-              <label className="block mb-2 text-md text-blueGray-600">
-                Application Type
-              </label>
+              <label className="block mb-2 text-md text-blueGray-600">Application Type</label>
               <select
                 name="applicationType"
                 value={appData.applicationType}
@@ -128,9 +121,7 @@ const AppDetails = ({ onInputChange, data }) => {
 
           <div className="w-full px-4 lg:w-6/12">
             <div className="relative w-full mb-3">
-              <label className="block mb-2 text-md text-blueGray-600">
-                Found Source
-              </label>
+              <label className="block mb-2 text-md text-blueGray-600">Found Source</label>
               <select
                 name="foundSource"
                 value={appData.foundSource || ""}
@@ -150,9 +141,7 @@ const AppDetails = ({ onInputChange, data }) => {
         <div className="flex flex-wrap">
           <div className="w-full px-4 lg:w-6/12">
             <div className="relative w-full mb-3">
-              <label className="block mb-2 text-md text-blueGray-600">
-                Representative 1
-              </label>
+              <label className="block mb-2 text-md text-blueGray-600">Representative 1</label>
               <input
                 type="text"
                 name="rep1"
@@ -166,9 +155,7 @@ const AppDetails = ({ onInputChange, data }) => {
 
           <div className="w-full px-4 lg:w-6/12">
             <div className="relative w-full mb-3">
-              <label className="block mb-2 text-md text-blueGray-600">
-                Description
-              </label>
+              <label className="block mb-2 text-md text-blueGray-600">Description</label>
               <input
                 type="text"
                 name="description"
@@ -181,48 +168,11 @@ const AppDetails = ({ onInputChange, data }) => {
           </div>
         </div>
 
-        {/* Consumer Ref + Job Name (kept; jobName not sent) */}
-        <div className="flex flex-wrap">
-          <div className="w-full px-4 lg:w-6/12">
-            <div className="relative w-full mb-3">
-              <label className="block mb-2 text-md text-blueGray-600">
-                Consumer Reference
-              </label>
-              <input
-                type="text"
-                name="consumerRef"
-                value={appData.consumerRef || ""}
-                onChange={handleChange}
-                className="border-1 px-3 h-0.5 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full"
-                style={{ border: "1px solid #ccc" }}
-              />
-            </div>
-          </div>
-
-          <div className="w-full px-4 lg:w-6/12">
-            <div className="relative w-full mb-3">
-              <label className="block mb-2 text-md text-blueGray-600">
-                Job Name
-              </label>
-              <input
-                type="text"
-                name="jobName"
-                value={appData.jobName}
-                onChange={handleChange}
-                className="border-1 px-3 h-0.5 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full"
-                style={{ border: "1px solid #ccc" }}
-              />
-            </div>
-          </div>
-        </div>
-
         {/* Nature of Supply + Years + duration */}
         <div className="flex flex-wrap">
           <div className="w-full px-4 lg:w-6/12">
             <div className="relative w-full mb-3">
-              <label className="block mb-2 text-md text-blueGray-600">
-                Nature of Supply
-              </label>
+              <label className="block mb-2 text-md text-blueGray-600">Nature of Supply</label>
               <div className="flex">
                 <select
                   name="nature"
@@ -263,9 +213,7 @@ const AppDetails = ({ onInputChange, data }) => {
           {/* Loan radio -> isLoanApp (Y/N) */}
           <div className="w-full px-4 lg:w-6/12">
             <div className="relative w-full mb-3">
-              <label className="block mb-2 text-md text-blueGray-600">
-                Is Loan App
-              </label>
+              <label className="block mb-2 text-md text-blueGray-600">Is Loan App</label>
               <div className="flex gap-4 mt-4">
                 <label className="mr-4 text-sm">
                   <input
